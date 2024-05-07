@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-with-init-conainer
+spec:
+  serviceName: nginxs
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+        - name: populate-default-html
+          image: nginx:1.26.0
+          # Nginx is a silly example to use for a stateful application (you should use a deployment for nginx)
+          # but this demonstrates how you can use an init container to pre-populate a pod specific config file
+          # For example, you might configure a database StatefulSet with some pods having read/write access, and
+          # others only providing read access.
+          #
+          # See: https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/
+          command:
+            - bash
+            - "-c"
+            - |
+              set -ex
+              [[ $HOSTNAME =~ -([0-9]+)$ ]] || exit 1
+              ordinal=${BASH_REMATCH[1]}
+              echo "<h1>Hello from pod $ordinal</h1>" >  /usr/share/nginx/html/index.html
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/nginx/html
+      containers:
+        - name: nginx
+          image: nginx:1.26.0
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "standard"
+        resources:
+          requests:
+            storage: 100Mi
