@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: namespaced-pod-permissions-succeed
+spec:
+  template:
+    spec:
+      automountServiceAccountToken: true
+      containers:
+        - name: kubectl
+          image: cgr.dev/chainguard/kubectl
+          args: ["get", "pods", "-n", "default"]
+      serviceAccountName: namespaced-pod-reader
+      restartPolicy: Never
+  backoffLimit: 1

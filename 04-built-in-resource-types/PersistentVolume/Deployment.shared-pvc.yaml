@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shared-pvc
+spec:
+  # Both pods can only run simultaneously on the same node because
+  # PVC has accessModes: [ReadWriteOnce]. Would be better to demo this
+  # on multi-node cluster
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.26.0
+          volumeMounts:
+            - name: storage
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: dynamic-pv
