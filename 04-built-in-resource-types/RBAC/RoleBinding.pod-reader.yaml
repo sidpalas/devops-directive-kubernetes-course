@@ -4,7 +4,7 @@ metadata:
   name: pod-reader
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
+  kind: Role
   name: pod-reader
 subjects:
   - kind: ServiceAccount
