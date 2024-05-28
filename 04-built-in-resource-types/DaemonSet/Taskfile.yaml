@@ -1,0 +1,32 @@
+version: "3"
+
+env:
+  BORDER: double
+  BORDER_FOREGROUND: "212"
+  PADDING: "1 1"
+  MARGIN: "1 1"
+  NAMESPACE: 04--daemonset
+
+tasks:
+  01-create-namespace:
+    desc: "Create a namespace for these examples and set as default"
+    cmds:
+      - kubectl apply -f Namespace.yaml
+      - kubens ${NAMESPACE}
+
+  02-apply-minimal-pod:
+    desc: "Apply a minimal fluentd pod configuration"
+    cmds:
+      - kubectl apply -f Pod.fluentd-minimal.yaml
+
+  03-apply-minimal-daemonset:
+    desc: "Apply a minimal fluentd daemonset configuration"
+    cmds:
+      - kubectl apply -f DaemonSet.fluentd-minimal.yaml
+
+  04-delete-namespace:
+    desc: "Delete the namespace to clean up"
+    cmds:
+      - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
+        silent: true
+      - kubectl delete -f Namespace.yaml
