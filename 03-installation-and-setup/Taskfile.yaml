@@ -100,6 +100,10 @@ tasks:
       - civo sizes ls
     desc: List available node sizes
 
+  kind:generate-config:
+    cmds:
+      - REPLACE_WITH_ABSOLUTE_PATH=${PWD} envsubst < kind-config.yaml.TEMPLATE > kind-config.yaml
+
   kind:create-cluster:
     cmds:
       - kind create cluster --config kind-config.yaml
