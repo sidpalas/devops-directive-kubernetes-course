@@ -28,7 +28,7 @@ tasks:
     desc: "Apply the  NodePort Service"
     cmds:
       - kubectl apply -f Service.nginx-nodeport.yaml
-      - cmd: gum style "💡 Go add a firewall rule to allow inbound traffic for nodeport port!"
+      - cmd: gum style "💡 Add a firewall rule to allow inbound traffic for nodeport port!"
         silent: true
 
   05-apply-loadbalancer-service:
