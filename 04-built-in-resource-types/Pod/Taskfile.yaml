@@ -12,7 +12,7 @@ tasks:
     desc: "Create a namespace for these examples and set as default"
     cmds:
       - kubectl apply -f Namespace.yaml
-      - kubens 04--pod
+      - kubens ${NAMESPACE}
 
   02-wrong-way-create:
     desc: "Create a pod the wrong way"
@@ -46,4 +46,4 @@ tasks:
     cmds:
       - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
         silent: true
-      - kubectl delete -n ${NAMESPACE} -f Namespace.yaml
+      - kubectl delete -f Namespace.yaml
