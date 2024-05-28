@@ -1,0 +1,46 @@
+version: "3"
+
+env:
+  BORDER: double
+  BORDER_FOREGROUND: "212"
+  PADDING: "1 1"
+  MARGIN: "1 1"
+  NAMESPACE: 04--ingress
+
+tasks:
+  01-create-namespace:
+    desc: "Create a namespace for these examples and set as default"
+    cmds:
+      - kubectl apply -f Namespace.yaml
+      - kubens ${NAMESPACE}
+
+  02-apply-deployment:
+    desc: "Apply the Deployment configuration"
+    cmds:
+      - kubectl apply -f Deployment.yaml
+
+  03-install-nginx-ingress-controller:
+    desc: "Install nginx ingress controller"
+    cmds:
+      - cmd: gum style "🚨 We will learn more about helm in the next part of the course... for now just 🤞"
+        silent: true
+      - |
+        helm upgrade --install ingress-nginx ingress-nginx \
+          --repo https://kubernetes.github.io/ingress-nginx \
+          --namespace ingress-nginx --create-namespace
+
+  04-apply-service-and-ingress:
+    desc: "Apply the ClusterIP Service and Ingress"
+    cmds:
+      - kubectl apply -f Service.yaml
+      - kubectl apply -f Ingress.yaml
+      - cmd: gum style "💡 Add /etc/hosts entry (or set up a real DNS name pointing to LoadBalancer IP address) to access via host"
+        silent: true
+
+  05-delete-namespace:
+    desc: "Delete the namespace(s) to clean up"
+    cmds:
+      - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
+        silent: true
+      - kubectl delete -f Namespace.yaml
+      - kubectl delete namespace ingress-nginx
