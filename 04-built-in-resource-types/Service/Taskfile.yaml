@@ -1,0 +1,44 @@
+version: "3"
+
+env:
+  BORDER: double
+  BORDER_FOREGROUND: "212"
+  PADDING: "1 1"
+  MARGIN: "1 1"
+  NAMESPACE: 04--service
+
+tasks:
+  01-create-namespace:
+    desc: "Create a namespace for these examples and set as default"
+    cmds:
+      - kubectl apply -f Namespace.yaml
+      - kubens ${NAMESPACE}
+
+  02-apply-deployment:
+    desc: "Apply the Deployment configuration"
+    cmds:
+      - kubectl apply -f Deployment.yaml
+
+  03-apply-clusterip-service:
+    desc: "Apply the ClusterIP Service"
+    cmds:
+      - kubectl apply -f Service.nginx-clusterip.yaml
+
+  04-apply-nodeport-service:
+    desc: "Apply the  NodePort Service"
+    cmds:
+      - kubectl apply -f Service.nginx-nodeport.yaml
+      - cmd: gum style "💡 Go add a firewall rule to allow inbound traffic for nodeport port!"
+        silent: true
+
+  05-apply-loadbalancer-service:
+    desc: "Apply the  LoadBalancer Service"
+    cmds:
+      - kubectl apply -f Service.nginx-loadbalancer.yaml
+
+  06-delete-namespace:
+    desc: "Delete the namespace to clean up"
+    cmds:
+      - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
+        silent: true
+      - kubectl delete -f Namespace.yaml
