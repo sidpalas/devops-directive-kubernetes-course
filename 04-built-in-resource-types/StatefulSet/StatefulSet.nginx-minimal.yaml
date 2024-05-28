@@ -16,15 +16,3 @@ spec:
       containers:
         - name: nginx
           image: nginx:1.26.0
-          volumeMounts:
-            - name: data
-              mountPath: /usr/share/nginx/html
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: "standard"
-        resources:
-          requests:
-            storage: 100Mi

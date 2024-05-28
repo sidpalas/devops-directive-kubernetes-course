@@ -1,0 +1,44 @@
+version: "3"
+
+env:
+  BORDER: double
+  BORDER_FOREGROUND: "212"
+  PADDING: "1 1"
+  MARGIN: "1 1"
+  NAMESPACE: 04--statefulset
+
+tasks:
+  01-create-namespace:
+    desc: "Create a namespace for these examples and set as default"
+    cmds:
+      - kubectl apply -f Namespace.yaml
+      - kubens ${NAMESPACE}
+
+  02-apply-minimal:
+    desc: "Apply a minimal StatefulSet configuration"
+    cmds:
+      - |
+        kubectl apply -f Service.nginx.yaml
+        kubectl apply -f Service.nginxs.yaml
+        kubectl apply -f StatefulSet.nginx-minimal.yaml
+
+  03-delete-minimal:
+    desc: "Delete the minimal StatefulSet configuration with an init container"
+    cmds:
+      - |
+        kubectl delete -f StatefulSet.nginx-minimal.yaml
+
+  04-apply-with-init:
+    desc: "Apply a statefulset configuration with an init container"
+    cmds:
+      - |
+        kubectl apply -f Service.nginx.yaml
+        kubectl apply -f Service.nginxs.yaml
+        kubectl apply -f StatefulSet.nginx-with-init-container.yaml
+
+  05-delete-namespace:
+    desc: "Delete the namespace to clean up"
+    cmds:
+      - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
+        silent: true
+      - kubectl delete -f Namespace.yaml
