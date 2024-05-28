@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: echo-date-better
-  namespace: 04--job
+  namespace: 04--c
 spec:
   parallelism: 2
   completions: 2
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: echo
-          image: busybox:1.36.1
+          image: cgr.dev/chainguard/busybox:latest
           command: ["date"]
           resources:
             limits:
