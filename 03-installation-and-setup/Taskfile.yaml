@@ -1,0 +1,111 @@
+version: "3"
+
+env:
+  CIVO_REGION: NYC1
+  CLUSTER_NAME: devops-directive-kubernetes-course
+  # Set default gum style options
+  BORDER: double
+  BORDER_FOREGROUND: "212"
+  PADDING: "1 1"
+  MARGIN: "1 1"
+
+tasks:
+  civo:authenticate-cli:
+    cmds:
+      - cmd: |
+          gum style "$(cat <<EOF
+          To get an API key you need to:
+          ---
+          1. Log in or create an account at https://dashboard.civo.com/
+          2. Create a team at https://dashboard.civo.com/teams
+          3. Add yourself to the team
+          4. Navigate to https://dashboard.civo.com/security to get the api key
+
+          🚨🚨🚨 NOTE: Sometimes account verification required for new accounts 
+          (so sign up before you want to use it!) 🚨🚨🚨
+          EOF
+          )"
+        silent: true
+      - civo apikey save
+      - civo apikey ls
+      - cmd: gum style "run \`civo apikey current <KEY_NAME>\` to set the current key as the default (if it is not already)"
+        silent: true
+    desc: Authenticate the Civo CLI
+
+  civo:clean-up:
+    cmds:
+      - civo kubernetes delete ${CLUSTER_NAME} -y
+      - cmd: gum style "There is some delay on the civo side from cluster being deleted to it being removed from the firewall rule usage"
+        silent: true
+      - sleep 10
+      - civo firewall delete devops-directive-kubernetes-course -y
+      - civo network delete devops-directive-kubernetes-course -y
+    desc: Clean up the Civo Kubernetes cluster and associated resources
+
+  civo:create-all:
+    cmds:
+      - task: civo:create-network
+      - task: civo:create-firewall
+      - task: civo:create-cluster
+    desc: Create the Civo network, firewall, and cluster in sequence
+
+  civo:create-cluster:
+    cmds:
+      - |
+        civo kubernetes create ${CLUSTER_NAME} \
+        --network devops-directive-kubernetes-course \
+        --existing-firewall devops-directive-kubernetes-course \
+        --nodes 2 \
+        --size g4s.kube.small \
+        --remove-applications "traefik2-nodeport" \
+        --wait
+    desc: Create a Civo Kubernetes cluster
+
+  civo:create-firewall:
+    cmds:
+      - |
+        civo firewall create devops-directive-kubernetes-course \
+        --network devops-directive-kubernetes-course \
+        --create-rules false \
+        --region ${CIVO_REGION}
+      - |
+        ingress_rule_ids=$(civo firewall rule ls devops-directive-kubernetes-course -o json | jq -r '.[] | select(.direction == "ingress") | .id')
+        for rule_id in $ingress_rule_ids; do
+          civo firewall rule remove devops-directive-kubernetes-course $rule_id -y --region ${CIVO_REGION}
+        done
+      - civo firewall rule create devops-directive-kubernetes-course --startport 80 --endport 80 --cidr 0.0.0.0/0 --protocol TCP --region ${CIVO_REGION}
+      - civo firewall rule create devops-directive-kubernetes-course --startport 443 --endport 443 --cidr 0.0.0.0/0 --protocol TCP --region ${CIVO_REGION}
+      - civo firewall rule create devops-directive-kubernetes-course --startport 6443 --endport 6443 --cidr 0.0.0.0/0 --protocol TCP --region ${CIVO_REGION}
+      - cmd: gum style "🚨 If you wanted to lock down access to the k8s api, you could instead only allow traffic on 6443 from your IP (or that of a bastion host)"
+        silent: true
+    desc: Create a Civo firewall and set up rules
+
+  civo:create-network:
+    cmds:
+      - civo network create devops-directive-kubernetes-course --region ${CIVO_REGION}
+    desc: Create a Civo network
+
+  civo:get-kubeconfig:
+    cmds:
+      - civo kubernetes config ${CLUSTER_NAME} --save --switch
+    desc: Get kubeconfig for the cluster
+
+  civo:list-k8s-versions:
+    cmds:
+      - curl https://api.civo.com/v2/kubernetes/versions | jq
+    desc: List available Kubernetes versions
+
+  civo:list-node-sizes:
+    cmds:
+      - civo sizes ls
+    desc: List available node sizes
+
+  kind:create-cluster:
+    cmds:
+      - kind create cluster --config kind-config.yaml
+    desc: Create a Kubernetes cluster using kind
+
+  kind:delete-cluster:
+    cmds:
+      - kind delete cluster
+    desc: Delete and existing a kind Kubernetes cluster
