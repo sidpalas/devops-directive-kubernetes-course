@@ -29,7 +29,7 @@ tasks:
           --repo https://kubernetes.github.io/ingress-nginx \
           --namespace ingress-nginx --create-namespace
 
-  04-apply-service-and-ingress:
+  04-apply-service-and-minimal-ingress:
     desc: "Apply the ClusterIP Service and Ingress"
     cmds:
       - kubectl apply -f Service.yaml
