@@ -5,7 +5,7 @@ metadata:
 spec:
   type: LoadBalancer # Will only work if cluster is configured to provision one from an external source (e.g. cloud provider)
   selector:
-    app: nginx-pod-label
+    baz: pod-label
   ports:
     - protocol: TCP
       port: 80 # Port the service is listening on

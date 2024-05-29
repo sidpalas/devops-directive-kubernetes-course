@@ -2,10 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx-clusterip
+  labels:
+    foo: service-label
+  annotations:
+    bar: service-annotation
 spec:
   type: ClusterIP # This is the default value
   selector:
-    app: nginx-pod-label
+    baz: pod-label
   ports:
     - protocol: TCP
       port: 80 # Port the service is listening on

@@ -2,15 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-minimal
+  labels:
+    foo: deployment-label
+  annotations:
+    bar: deployment-annotation
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx-pod-label
+      baz: pod-label
   template:
     metadata:
       labels:
-        app: nginx-pod-label
+        baz: pod-label
+      annotations:
+        bing: pod-annotation
     spec:
       containers:
         - name: nginx
