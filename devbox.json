@@ -3,6 +3,7 @@
   "packages": [
     "argocd@latest",
     "civo@latest",
+    "envsubst@latest",
     "gh@latest",
     "go-task@latest",
     "gum@latest",

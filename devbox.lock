@@ -97,6 +97,54 @@
         }
       }
     },
+    "envsubst@latest": {
+      "last_modified": "2024-05-22T06:18:38Z",
+      "resolved": "github:NixOS/nixpkgs/3f316d2a50699a78afe5e77ca486ad553169061e#envsubst",
+      "source": "devbox-search",
+      "version": "1.4.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/9fv03b9zy4nq1316njb2yc1i45ag3py9-envsubst-1.4.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/9fv03b9zy4nq1316njb2yc1i45ag3py9-envsubst-1.4.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/8a6gfs1wxmd1yady0rg0dc843sgpxn1f-envsubst-1.4.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/8a6gfs1wxmd1yady0rg0dc843sgpxn1f-envsubst-1.4.2"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/am9hsk62krixjq4qs6k56jn4ajcclh88-envsubst-1.4.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/am9hsk62krixjq4qs6k56jn4ajcclh88-envsubst-1.4.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/8jfd15711zjz6d7lib09j40arfn24z7z-envsubst-1.4.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/8jfd15711zjz6d7lib09j40arfn24z7z-envsubst-1.4.2"
+        }
+      }
+    },
     "gh@latest": {
       "last_modified": "2024-05-14T02:22:19Z",
       "resolved": "github:NixOS/nixpkgs/abd6d48f8c77bea7dc51beb2adfa6ed3950d2585#gh",
