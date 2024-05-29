@@ -1,7 +1,0 @@
-apiVersion: kind.x-k8s.io/v1alpha4
-kind: Cluster
-nodes:
-  - role: control-plane
-    extraMounts:
-      - hostPath: /Users/palas/development/courses/kubernetes-course/devops-directive-kubernetes-course/04-built-in-resource-types/PersistentVolume/kind-bind-mount
-        containerPath: /some/path/in/container

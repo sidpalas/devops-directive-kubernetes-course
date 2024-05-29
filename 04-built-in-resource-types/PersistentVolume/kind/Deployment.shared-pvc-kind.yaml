@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shared-pvc
+  name: shared-pvc-kind
 spec:
   # Both pods can only run simultaneously on the same node because
   # PVC has accessModes: [ReadWriteOnce]. Would be better to demo this
@@ -19,9 +19,9 @@ spec:
         - name: nginx
           image: nginx:1.26.0
           volumeMounts:
-            - name: storage
-              mountPath: /usr/share/nginx/html
+            - name: data
+              mountPath: /some/mount/path
       volumes:
-        - name: storage
+        - name: data
           persistentVolumeClaim:
-            claimName: dynamic-pv
+            claimName: dynamic-pv-kind

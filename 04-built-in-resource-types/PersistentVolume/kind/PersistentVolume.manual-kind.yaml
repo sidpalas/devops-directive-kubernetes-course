@@ -1,16 +1,15 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: manual
+  name: manual-kind
   labels:
-    name: manual
+    name: manual-kind
 spec:
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 100Mi
   storageClassName: standard
-  # storageClassName: local-storage
   local:
     path: /some/path/in/container # Replace with the path to your local storage
   nodeAffinity:
@@ -20,4 +19,4 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - kind-control-plane
+                - kind-worker

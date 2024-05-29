@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: manual-pv
+  name: manual-pv-kind
 spec:
   accessModes:
     - ReadWriteOnce
@@ -10,6 +10,5 @@ spec:
       storage: 100Mi
   selector:
     matchLabels:
-      name: manual
-  # storageClassName: local-storage
+      name: manual-kind
   storageClassName: standard

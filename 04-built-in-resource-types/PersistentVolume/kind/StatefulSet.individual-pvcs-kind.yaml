@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: individual-pvcs-kind
+spec:
+  serviceName: "nginx"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.26.0
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: data
+              mountPath: /some/mount/path
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 50Mi
+        storageClassName: "standard"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: individual-pvcss
+spec:
+  clusterIP: None
+  selector:
+    app: nginx

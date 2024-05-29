@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: civo-volume
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+allowVolumeExpansion: true
+provisioner: csi.civo.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer

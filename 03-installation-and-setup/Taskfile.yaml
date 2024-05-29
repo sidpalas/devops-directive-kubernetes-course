@@ -53,12 +53,12 @@ tasks:
     cmds:
       - |
         civo kubernetes create ${CLUSTER_NAME} \
-        --network devops-directive-kubernetes-course \
-        --existing-firewall devops-directive-kubernetes-course \
-        --nodes 2 \
-        --size g4s.kube.small \
-        --remove-applications "traefik2-nodeport" \
-        --wait
+          --network devops-directive-kubernetes-course \
+          --existing-firewall devops-directive-kubernetes-course \
+          --nodes 2 \
+          --size g4s.kube.small \
+          --remove-applications "traefik2-nodeport" \
+          --wait
     desc: Create a Civo Kubernetes cluster
 
   civo:create-firewall:

@@ -1,0 +1,47 @@
+version: "3"
+
+env:
+  BORDER: double
+  BORDER_FOREGROUND: "212"
+  PADDING: "1 1"
+  MARGIN: "1 1"
+  NAMESPACE: 04--persistentvolume
+
+tasks:
+  01-create-namespace:
+    desc: "Create a namespace for these examples and set as default"
+    cmds:
+      - kubectl apply -f Namespace.yaml
+      - kubens ${NAMESPACE}
+
+  02-apply-manual-pv-pvc-pod-kind:
+    desc: "Apply the configuration for a manually provisioned local PVC and a pod to consume it"
+    cmds:
+      - kubectl apply -f kind/PersistentVolume.manual-kind.yaml
+      - kubectl apply -f kind/PersistentVolumeClaim.manual-pv-kind.yaml
+      - kubectl apply -f kind/Pod.manual-pv-and-pvc-kind.yaml
+
+  03-apply-dynamic-pv-pvc-deployment-kind:
+    desc: "Apply the configuration for a dynamically provisioned local PVC and a deployment to consume it"
+    cmds:
+      - kubectl apply -f kind/PersistentVolumeClaim.dynamic-pv-kind.yaml
+      - kubectl apply -f kind/Deployment.shared-pvc-kind.yaml
+
+  04-apply-dynamic-pv-pvc-statefulset-kind:
+    desc: "Apply the configuration for a StatefulSet which provisions PVCs from a template"
+    cmds:
+      - kubectl apply -f kind/StatefulSet.individual-pvcs-kind.yaml
+
+  05-apply-dynamic-pv-pvc-statefulset-civo:
+    desc: "Apply the configuration for a StatefulSet which provisions PVCs from a template"
+    cmds:
+      - cmd: gum style "🚨 Make sure to use the kubeconfig context associated with your civo cluster for this command!"
+        silent: true
+      - kubectl apply -f civo/StatefulSet.individual-pvcs-civo.yaml
+
+  06-delete-namespace:
+    desc: "Delete the namespace to clean up"
+    cmds:
+      - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
+        silent: true
+      - kubectl delete -f Namespace.yaml

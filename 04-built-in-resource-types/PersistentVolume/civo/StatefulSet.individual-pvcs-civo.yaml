@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: individual-pvcs
+  name: individual-pvcs-kind
 spec:
   serviceName: "nginx"
   replicas: 2
@@ -28,8 +28,8 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 50Mi
-        storageClassName: "standard"
+            storage: 1Gi
+        storageClassName: civo-volume
 ---
 apiVersion: v1
 kind: Service
