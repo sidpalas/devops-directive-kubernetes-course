@@ -9,4 +9,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: cluster-pod-reader
-    namespace: default
+    namespace: 04--rbac

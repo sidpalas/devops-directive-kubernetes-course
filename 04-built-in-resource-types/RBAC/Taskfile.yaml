@@ -1,0 +1,44 @@
+version: "3"
+
+env:
+  BORDER: double
+  BORDER_FOREGROUND: "212"
+  PADDING: "1 1"
+  MARGIN: "1 1"
+  NAMESPACE: 04--rbac
+
+tasks:
+  01-create-namespace:
+    desc: "Create a namespace for these examples and set as default"
+    cmds:
+      - kubectl apply -f Namespace.yaml
+      - kubens ${NAMESPACE}
+
+  02-apply-job-no-permissions:
+    desc: "Apply the Job without any ServiceAccount or permissions"
+    cmds:
+      - kubectl apply -f Job.no-permissions.yaml
+
+  03-apply-namespace-scoped-permissions:
+    desc: "Apply the configuration for a ServiceAccount, Role, and RoleBinding"
+    cmds:
+      - kubectl apply -f ServiceAccount.namespaced-pod-permissions.yaml
+      - kubectl apply -f Role.pod-reader.yaml
+      - kubectl apply -f RoleBinding.pod-reader.yaml
+      - kubectl apply -f Job.namespaced-pod-reader-succeed.yaml
+      - kubectl apply -f Job.namespaced-pod-reader-fail.yaml
+
+  04-apply-cluster-scoped-permissions:
+    desc: "Apply the configuration for a ServiceAccount, ClusterRole, and ClusterRoleBinding"
+    cmds:
+      - kubectl apply -f ServiceAccount.cluster-pod-permissions.yaml
+      - kubectl apply -f ClusterRole.pod-reader.yaml
+      - kubectl apply -f ClusterRoleBinding.pod-reader.yaml
+      - kubectl apply -f Job.cluster-pod-reader.yaml
+
+  05-delete-namespace:
+    desc: "Delete the namespace to clean up"
+    cmds:
+      - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
+        silent: true
+      - kubectl delete -f Namespace.yaml

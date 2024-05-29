@@ -9,7 +9,7 @@ spec:
       containers:
         - name: kubectl
           image: cgr.dev/chainguard/kubectl
-          args: ["get", "pods", "-n", "default"]
+          args: ["get", "pods", "-n", "04--rbac"]
       serviceAccountName: namespaced-pod-reader
       restartPolicy: Never
   backoffLimit: 1

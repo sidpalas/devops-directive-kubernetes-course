@@ -9,4 +9,3 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: namespaced-pod-reader
-    namespace: default
