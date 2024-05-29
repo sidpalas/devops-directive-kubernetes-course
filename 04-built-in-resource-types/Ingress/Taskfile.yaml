@@ -27,7 +27,9 @@ tasks:
       - |
         helm upgrade --install ingress-nginx ingress-nginx \
           --repo https://kubernetes.github.io/ingress-nginx \
-          --namespace ingress-nginx --create-namespace
+          --namespace ingress-nginx \
+          --create-namespace \
+          --version 4.10.1
 
   04-apply-service-and-minimal-ingress:
     desc: "Apply the ClusterIP Service and Ingress"
