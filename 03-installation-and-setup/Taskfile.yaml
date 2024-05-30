@@ -1,8 +1,10 @@
 version: "3"
 
 env:
-  CIVO_REGION: NYC1
   CLUSTER_NAME: devops-directive-kubernetes-course
+  CIVO_REGION: NYC1
+  GCP_REGION: us-central1
+  GCP_ZONE: us-central1-a
   # Set default gum style options
   BORDER: double
   BORDER_FOREGROUND: "212"
@@ -90,19 +92,85 @@ tasks:
       - civo kubernetes config ${CLUSTER_NAME} --save --switch
     desc: Get kubeconfig for the cluster
 
-  civo:list-k8s-versions:
+  gcp:init-cli:
     cmds:
-      - curl https://api.civo.com/v2/kubernetes/versions | jq
-    desc: List available Kubernetes versions
+      - gcloud init
+    desc: "Authenticate and configure the gcloud CLI"
 
-  civo:list-node-sizes:
+  gcp:enable-apis:
     cmds:
-      - civo sizes ls
-    desc: List available node sizes
+      - |
+        gcloud services enable \
+          compute.googleapis.com \
+          container.googleapis.com \
+          cloudresourcemanager.googleapis.com \
+          iam.googleapis.com \
+          servicemanagement.googleapis.com \
+          serviceusage.googleapis.com
+    desc: "Enable necessary APIs"
+
+  gcp:set-region-and-zone:
+    cmds:
+      - gcloud config set compute/region ${GCP_REGION}
+      - gcloud config set compute/zone ${GCP_ZONE}
+    desc: "Set default region and zone"
+
+  gcp:create-vpc:
+    cmds:
+      - gcloud compute networks create ${CLUSTER_NAME} --subnet-mode=custom
+    desc: "Create VPC"
+
+  gcp:create-subnet:
+    cmds:
+      - gcloud compute networks subnets create subnet-1 \
+        --network=${CLUSTER_NAME} \
+        --region=${GCP_REGION} \
+        --range=10.0.0.0/20
+    desc: "Create subnet"
+
+  gcp:create-firewall-rules:
+    cmds:
+      - gcloud compute firewall-rules create allow-internal \
+        --network=${CLUSTER_NAME} \
+        --allow tcp,udp,icmp \
+        --source-ranges=10.0.0.0/20
+    desc: "Create firewall rules"
+
+  gcp:create-cluster:
+    cmds:
+      - gcloud container clusters create ${CLUSTER_NAME} \
+        --zone ${GCP_ZONE} \
+        --network ${CLUSTER_NAME} \
+        --subnetwork subnet-1 \
+        --machine-type e2-standard-2 \
+        --num-nodes 2
+    desc: "Create GKE cluster"
+
+  gcp:create-all:
+    cmds:
+      - task: gcp:enable-apis
+      - task: gcp:create-vpc
+      - task: gcp:create-subnet
+      - task: gcp:create-firewall-rules
+      - task: gcp:create-cluster
+    desc: Create the GCP network, subnet, firewall rules, and cluster in sequence
+
+  gcp:clean-up:
+    cmds:
+      - gcloud container clusters delete ${CLUSTER_NAME} --zone ${GCP_ZONE} --quiet
+      - gcloud compute networks subnets delete subnet-1 --region=${GCP_REGION} --quiet
+      - gcloud compute networks delete ${CLUSTER_NAME} --quiet
+    desc: Delete the GCP network, subnet, firewall rules, and cluster in reverse sequence
+
+  gcp:connect-to-cluster:
+    cmds:
+      - gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${GCP_ZONE}
+    desc: "Connect to the GKE cluster"
 
   kind:generate-config:
     cmds:
       - REPLACE_WITH_ABSOLUTE_PATH=${PWD} envsubst < kind-config.yaml.TEMPLATE > kind-config.yaml
+    desc: "Generate kind config with local absolute paths for PV mounts"
 
   kind:create-cluster:
     cmds:
