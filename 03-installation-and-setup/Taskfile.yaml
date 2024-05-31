@@ -122,28 +122,31 @@ tasks:
 
   gcp:create-subnet:
     cmds:
-      - gcloud compute networks subnets create subnet-1 \
-        --network=${CLUSTER_NAME} \
-        --region=${GCP_REGION} \
-        --range=10.0.0.0/20
+      - |
+        gcloud compute networks subnets create subnet-1 \
+          --network=${CLUSTER_NAME} \
+          --region=${GCP_REGION} \
+          --range=10.0.0.0/20
     desc: "Create subnet"
 
   gcp:create-firewall-rules:
     cmds:
-      - gcloud compute firewall-rules create allow-internal \
-        --network=${CLUSTER_NAME} \
-        --allow tcp,udp,icmp \
-        --source-ranges=10.0.0.0/20
+      - |
+        gcloud compute firewall-rules create allow-internal \
+          --network=${CLUSTER_NAME} \
+          --allow tcp,udp,icmp \
+          --source-ranges=10.0.0.0/20
     desc: "Create firewall rules"
 
   gcp:create-cluster:
     cmds:
-      - gcloud container clusters create ${CLUSTER_NAME} \
-        --zone ${GCP_ZONE} \
-        --network ${CLUSTER_NAME} \
-        --subnetwork subnet-1 \
-        --machine-type e2-standard-2 \
-        --num-nodes 2
+      - |
+        gcloud container clusters create ${CLUSTER_NAME} \
+          --zone ${GCP_ZONE} \
+          --network ${CLUSTER_NAME} \
+          --subnetwork subnet-1 \
+          --machine-type e2-standard-2 \
+          --num-nodes 2
     desc: "Create GKE cluster"
 
   gcp:create-all:
@@ -159,7 +162,11 @@ tasks:
     cmds:
       - gcloud container clusters delete ${CLUSTER_NAME} --zone ${GCP_ZONE} --quiet
       - gcloud compute networks subnets delete subnet-1 --region=${GCP_REGION} --quiet
+      - gcloud compute firewall-rules delete allow-internal --quiet
       - gcloud compute networks delete ${CLUSTER_NAME} --quiet
+      # Failing due to  - The network resource 'projects/kubernetes-course-424917/global/networks/devops-directive-kubernetes-course' is already being used by 'projects/kubernetes-course-424917/zones/us-central1-a/networkEndpointGroups/k8s1-775a90cc-04--ingress-nginx-clusterip-80-bec96ffe'
+      # Maybe because I deleted the cluster without deleting the ingress and allowing the load balancer to be cleaned up?
+      # Interestingly I was able to delete from the UI, but that could because some time had elapsed
     desc: Delete the GCP network, subnet, firewall rules, and cluster in reverse sequence
 
   gcp:connect-to-cluster:
