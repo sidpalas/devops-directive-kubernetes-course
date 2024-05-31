@@ -24,7 +24,12 @@ tasks:
     cmds:
       - kubectl apply -f CronJob.echo-date-better.yaml
 
-  04-delete-namespace:
+  04-create-job-from-cronjob:
+    desc: "Manually create a job using a cronjob as the template"
+    cmds:
+      - kubectl create job --from=cronjob/echo-date-better manually-triggered
+
+  05-delete-namespace:
     desc: "Delete the namespace to clean up"
     cmds:
       - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
