@@ -19,7 +19,15 @@ tasks:
     cmds:
       - kubectl apply -f Deployment.yaml
 
-  03-install-nginx-ingress-controller:
+  03-apply-service-and-minimal-gke-ingress:
+    desc: "Apply the NodePort Service and GKE Ingress"
+    cmds:
+      - kubectl apply -f Service.nginx-nodeport.yaml
+      - kubectl apply -f Ingress.minimal-gke.yaml
+      - cmd: gum style "💡 Add /etc/hosts entry (or set up a real DNS name pointing to LoadBalancer IP address) to access via host"
+        silent: true
+
+  04-install-nginx-ingress-controller:
     desc: "Install nginx ingress controller"
     cmds:
       - cmd: gum style "🚨 We will learn more about helm in the next part of the course... for now just 🤞"
@@ -31,15 +39,15 @@ tasks:
           --create-namespace \
           --version 4.10.1
 
-  04-apply-service-and-minimal-ingress:
+  05-apply-service-and-minimal-nginx-ingress:
     desc: "Apply the ClusterIP Service and Ingress"
     cmds:
-      - kubectl apply -f Service.yaml
-      - kubectl apply -f Ingress.yaml
+      - kubectl apply -f Service.nginx-clusterip.yaml
+      - kubectl apply -f Ingress.minimal-nginx.yaml
       - cmd: gum style "💡 Add /etc/hosts entry (or set up a real DNS name pointing to LoadBalancer IP address) to access via host"
         silent: true
 
-  05-delete-namespace:
+  06-delete-namespace:
     desc: "Delete the namespace(s) to clean up"
     cmds:
       - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
