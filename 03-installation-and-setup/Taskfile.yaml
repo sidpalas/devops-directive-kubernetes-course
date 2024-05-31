@@ -129,15 +129,6 @@ tasks:
           --range=10.0.0.0/20
     desc: "Create subnet"
 
-  gcp:create-firewall-rules:
-    cmds:
-      - |
-        gcloud compute firewall-rules create allow-internal \
-          --network=${CLUSTER_NAME} \
-          --allow tcp,udp,icmp \
-          --source-ranges=10.0.0.0/20
-    desc: "Create firewall rules"
-
   gcp:create-cluster:
     cmds:
       - |
@@ -146,7 +137,8 @@ tasks:
           --network ${CLUSTER_NAME} \
           --subnetwork subnet-1 \
           --machine-type e2-standard-2 \
-          --num-nodes 2
+          --num-nodes 2 \
+          --gateway-api=standard
     desc: "Create GKE cluster"
 
   gcp:create-all:
@@ -154,7 +146,6 @@ tasks:
       - task: gcp:enable-apis
       - task: gcp:create-vpc
       - task: gcp:create-subnet
-      - task: gcp:create-firewall-rules
       - task: gcp:create-cluster
     desc: Create the GCP network, subnet, firewall rules, and cluster in sequence
 
@@ -162,7 +153,6 @@ tasks:
     cmds:
       - gcloud container clusters delete ${CLUSTER_NAME} --zone ${GCP_ZONE} --quiet
       - gcloud compute networks subnets delete subnet-1 --region=${GCP_REGION} --quiet
-      - gcloud compute firewall-rules delete allow-internal --quiet
       - gcloud compute networks delete ${CLUSTER_NAME} --quiet
       # Failing due to  - The network resource 'projects/kubernetes-course-424917/global/networks/devops-directive-kubernetes-course' is already being used by 'projects/kubernetes-course-424917/zones/us-central1-a/networkEndpointGroups/k8s1-775a90cc-04--ingress-nginx-clusterip-80-bec96ffe'
       # Maybe because I deleted the cluster without deleting the ingress and allowing the load balancer to be cleaned up?
