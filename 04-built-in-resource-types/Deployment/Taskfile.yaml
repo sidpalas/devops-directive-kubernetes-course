@@ -24,7 +24,13 @@ tasks:
     cmds:
       - kubectl apply -f Deployment.nginx-better.yaml
 
-  04-delete-namespace:
+  04-rollout-restart:
+    desc: "Roll the pods in one of the deployments"
+    cmds:
+      - kubectl rollout restart deployment nginx-better
+      - watch "kubectl get pods"
+
+  05-delete-namespace:
     desc: "Delete the namespace to clean up"
     cmds:
       - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
