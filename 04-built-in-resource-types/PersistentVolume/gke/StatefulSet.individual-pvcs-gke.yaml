@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: individual-pvcs-kind
+  name: individual-pvcs-gke
 spec:
   serviceName: "nginx"
   replicas: 2
   selector:
     matchLabels:
-      app: nginx-sts-kind
+      app: nginx-sts-gke
   template:
     metadata:
       labels:
-        app: nginx-sts-kind
+        app: nginx-sts-gke
     spec:
       containers:
         - name: nginx
@@ -28,8 +28,8 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 50Mi
-        storageClassName: "standard"
+            storage: 1Gi
+        storageClassName: standard-rwo
 ---
 apiVersion: v1
 kind: Service
@@ -38,4 +38,4 @@ metadata:
 spec:
   clusterIP: None
   selector:
-    app: nginx-sts-kind
+    app: nginx-sts-gke

@@ -33,13 +33,20 @@ tasks:
       - kubectl apply -f kind/StatefulSet.individual-pvcs-kind.yaml
 
   05-apply-dynamic-pv-pvc-statefulset-civo:
-    desc: "Apply the configuration for a StatefulSet which provisions PVCs from a template"
+    desc: "Apply the configuration for a StatefulSet which provisions PVCs from a template (Civo)"
     cmds:
       - cmd: gum style "🚨 Make sure to use the kubeconfig context associated with your civo cluster for this command!"
         silent: true
       - kubectl apply -f civo/StatefulSet.individual-pvcs-civo.yaml
 
-  06-delete-namespace:
+  06-apply-dynamic-pv-pvc-statefulset-gke:
+    desc: "Apply the configuration for a StatefulSet which provisions PVCs from a template (GKE)"
+    cmds:
+      - cmd: gum style "🚨 Make sure to use the kubeconfig context associated with your civo cluster for this command!"
+        silent: true
+      - kubectl apply -f gke/StatefulSet.individual-pvcs-gke.yaml
+
+  07-delete-namespace:
     desc: "Delete the namespace to clean up"
     cmds:
       - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "

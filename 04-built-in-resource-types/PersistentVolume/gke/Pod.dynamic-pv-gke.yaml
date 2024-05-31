@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dynamic-pv-gke
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.26.0
+      volumeMounts:
+        - name: storage
+          mountPath: /some/mount/path
+  volumes:
+    - name: storage
+      persistentVolumeClaim:
+        claimName: dynamic-pv-civo
