@@ -24,7 +24,13 @@ tasks:
     cmds:
       - kubectl apply -f ReplicaSet.nginx-better.yaml
 
-  04-delete-namespace:
+  04-delete-pods:
+    desc: "Delete all the pods! (they will be automatically recreated)"
+    cmds:
+      - kubectl delete pods --all
+      - watch "kubectl get pods"
+
+  05-delete-namespace:
     desc: "Delete the namespace to clean up"
     cmds:
       - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
