@@ -16,7 +16,11 @@
     "kubernetes-helm@latest",
     "oras@latest",
     "yq-go@latest",
-    "google-cloud-sdk@latest"
+    "google-cloud-sdk@latest",
+    "poetry@latest",
+    "python312@latest",
+    "go@latest",
+    "nodejs_20@latest"
   ],
   "shell": {
     "init_hook": ["echo 'Welcome to devbox!' > /dev/null"],
