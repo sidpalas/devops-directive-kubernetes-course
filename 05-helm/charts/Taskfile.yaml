@@ -1,0 +1,32 @@
+version: "3"
+
+env:
+  BORDER: double
+  BORDER_FOREGROUND: "212"
+  PADDING: "1 1"
+  MARGIN: "1 1"
+  NAMESPACE: 05--charts
+
+tasks:
+  01-create-namespace:
+    desc: "Create a namespace for these examples and set as default"
+    cmds:
+      - kubectl apply -f Namespace.yaml
+      - kubens ${NAMESPACE}
+
+  02-install-default-values:
+    cmds:
+      - helm upgrade --install minimal ./minimal
+    desc: Install with default values
+
+  03-install-alt-values:
+    cmds:
+      - helm upgrade --install minimal ./minimal --values=./minimal/values-alt.yaml
+    desc: Install with alternative values
+
+  04-delete-namespace:
+    desc: "Delete the namespace to clean up"
+    cmds:
+      - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
+        silent: true
+      - kubectl delete -f Namespace.yaml
