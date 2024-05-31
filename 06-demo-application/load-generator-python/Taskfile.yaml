@@ -1,0 +1,32 @@
+version: "3"
+
+vars:
+  IMAGE_REPO: localhost:5000/devops-directive-docker-course-react-client
+  IMAGE_TAG: foobarbaz
+
+tasks:
+  build-container-image:
+    desc: Build container image
+    cmds:
+      - docker build -t {{.IMAGE_TAG}} .
+
+  build-container-image-multi-arch:
+    desc: Build multi-arch container image
+    cmds:
+      - |
+        docker buildx build \
+        --platform linux/amd64,linux/arm64 \
+        -t {{.IMAGE_REPO}}:{{.IMAGE_TAG}} \
+        --push \
+        .
+
+  install:
+    desc: Install load generator dependencies
+    cmds:
+      - poetry install --no-root
+
+  run:
+    desc: Start load generator
+    cmds:
+      # api-golang is listening on port 8080
+      - API_URL=http://localhost:8080/ DELAY_MS=100 poetry run python main.py

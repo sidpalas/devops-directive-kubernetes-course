@@ -1,0 +1,16 @@
+version: "3"
+
+tasks:
+  run-postgres:
+    desc: Start postgres container
+    cmds:
+      - echo Starting postgres container
+      - docker run -e POSTGRES_PASSWORD=foobarbaz -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:16.3-alpine
+
+  run-psql-init-script:
+    desc: Execute psql commands
+    cmds:
+      - |
+        CONTAINER_ID=$(docker ps -q --filter "ancestor=postgres:16.3-alpine")
+        docker cp ./init.sql $CONTAINER_ID:/tmp/
+        docker exec $CONTAINER_ID psql -U "postgres" -f /tmp/init.sql

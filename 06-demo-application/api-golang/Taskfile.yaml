@@ -1,0 +1,29 @@
+version: "3"
+
+vars:
+  DATABASE_URL: "postgres://postgres:foobarbaz@localhost:5432/postgres"
+  IMAGE_REPO: localhost:5000/devops-directive-docker-course-api-golang
+  IMAGE_TAG: foobarbaz
+
+tasks:
+  install:
+    desc: "download dependencies"
+    cmds:
+      - go mod tidy
+
+  run:
+    desc: "download dependencies"
+    cmds:
+      - echo $PWD
+      - ls
+      - DATABASE_URL={{.DATABASE_URL}} go run main.go
+
+  build-container-image:
+    desc: Build container image
+    cmds:
+      - |
+        KO_DOCKER_REPO='{{.IMAGE_REPO}}' \
+          ko build \
+          --bare \
+          --tags={{.IMAGE_TAG}} \
+          --platform=all

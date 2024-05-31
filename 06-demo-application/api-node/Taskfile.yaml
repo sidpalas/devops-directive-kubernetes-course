@@ -1,0 +1,32 @@
+version: "3"
+
+vars:
+  DATABASE_URL: "postgres://postgres:foobarbaz@localhost:5432/postgres"
+  IMAGE_REPO: localhost:5000/devops-directive-docker-course-api-node
+  IMAGE_TAG: foobarbazbing
+
+tasks:
+  build-container-image:
+    desc: Build container image
+    cmds:
+      - docker build -t {{.IMAGE_TAG}} .
+
+  build-container-image-multi-arch:
+    desc: Build multi-arch container image
+    cmds:
+      - |
+        docker buildx build \
+        --platform linux/amd64,linux/arm64 \
+        -t {{.IMAGE_REPO}}:{{.IMAGE_TAG}} \
+        --push \
+        .
+
+  install:
+    desc: install dependencies
+    cmds:
+      - npm install
+
+  run:
+    desc: Start node api
+    cmds:
+      - DATABASE_URL={{.DATABASE_URL}} npm run dev
