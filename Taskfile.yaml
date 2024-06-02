@@ -1,0 +1,6 @@
+version: "3"
+
+includes:
+  setup:
+    taskfile: ./03-installation-and-setup/Taskfile.yaml
+    dir: ./03-installation-and-setup

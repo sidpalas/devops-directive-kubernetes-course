@@ -12,7 +12,7 @@ env:
   MARGIN: "1 1"
 
 tasks:
-  civo:authenticate-cli:
+  civo:01-authenticate-cli:
     cmds:
       - cmd: |
           gum style "$(cat <<EOF
@@ -34,7 +34,7 @@ tasks:
         silent: true
     desc: Authenticate the Civo CLI
 
-  civo:clean-up:
+  civo:06-clean-up:
     cmds:
       - civo kubernetes delete ${CLUSTER_NAME} -y
       - cmd: gum style "There is some delay on the civo side from cluster being deleted to it being removed from the firewall rule usage"
@@ -44,14 +44,14 @@ tasks:
       - civo network delete devops-directive-kubernetes-course -y
     desc: Clean up the Civo Kubernetes cluster and associated resources
 
-  civo:create-all:
+  civo:04-create-all:
     cmds:
-      - task: civo:create-network
-      - task: civo:create-firewall
-      - task: civo:create-cluster
+      - task: civo:01-create-network
+      - task: civo:02-create-firewall
+      - task: civo:03-create-cluster
     desc: Create the Civo network, firewall, and cluster in sequence
 
-  civo:create-cluster:
+  civo:03-create-cluster:
     cmds:
       - |
         civo kubernetes create ${CLUSTER_NAME} \
@@ -63,7 +63,7 @@ tasks:
           --wait
     desc: Create a Civo Kubernetes cluster
 
-  civo:create-firewall:
+  civo:02-create-firewall:
     cmds:
       - |
         civo firewall create devops-directive-kubernetes-course \
@@ -82,22 +82,22 @@ tasks:
         silent: true
     desc: Create a Civo firewall and set up rules
 
-  civo:create-network:
+  civo:01-create-network:
     cmds:
       - civo network create devops-directive-kubernetes-course --region ${CIVO_REGION}
     desc: Create a Civo network
 
-  civo:get-kubeconfig:
+  civo:05-get-kubeconfig:
     cmds:
       - civo kubernetes config ${CLUSTER_NAME} --save --switch
     desc: Get kubeconfig for the cluster
 
-  gcp:init-cli:
+  gcp:01-init-cli:
     cmds:
       - gcloud init
     desc: "Authenticate and configure the gcloud CLI"
 
-  gcp:enable-apis:
+  gcp:02-enable-apis:
     cmds:
       - |
         gcloud services enable \
@@ -109,18 +109,18 @@ tasks:
           serviceusage.googleapis.com
     desc: "Enable necessary APIs"
 
-  gcp:set-region-and-zone:
+  gcp:03-set-region-and-zone:
     cmds:
       - gcloud config set compute/region ${GCP_REGION}
       - gcloud config set compute/zone ${GCP_ZONE}
     desc: "Set default region and zone"
 
-  gcp:create-vpc:
+  gcp:04-create-vpc:
     cmds:
       - gcloud compute networks create ${CLUSTER_NAME} --subnet-mode=custom
     desc: "Create VPC"
 
-  gcp:create-subnet:
+  gcp:05-create-subnet:
     cmds:
       - |
         gcloud compute networks subnets create subnet-1 \
@@ -129,7 +129,7 @@ tasks:
           --range=10.0.0.0/20
     desc: "Create subnet"
 
-  gcp:create-cluster:
+  gcp:06-create-cluster:
     cmds:
       - |
         gcloud container clusters create ${CLUSTER_NAME} \
@@ -141,40 +141,38 @@ tasks:
           --gateway-api=standard
     desc: "Create GKE cluster"
 
-  gcp:create-all:
+  gcp:07-create-all:
     cmds:
-      - task: gcp:enable-apis
-      - task: gcp:create-vpc
-      - task: gcp:create-subnet
-      - task: gcp:create-cluster
+      - task: gcp:02-enable-apis
+      - task: gcp:03-set-region-and-zone
+      - task: gcp:04-create-vpc
+      - task: gcp:05-create-subnet
+      - task: gcp:06-create-cluster
     desc: Create the GCP network, subnet, firewall rules, and cluster in sequence
 
-  gcp:clean-up:
+  gcp:09-clean-up:
     cmds:
       - gcloud container clusters delete ${CLUSTER_NAME} --zone ${GCP_ZONE} --quiet
       - gcloud compute networks subnets delete subnet-1 --region=${GCP_REGION} --quiet
       - gcloud compute networks delete ${CLUSTER_NAME} --quiet
-      # Failing due to  - The network resource 'projects/kubernetes-course-424917/global/networks/devops-directive-kubernetes-course' is already being used by 'projects/kubernetes-course-424917/zones/us-central1-a/networkEndpointGroups/k8s1-775a90cc-04--ingress-nginx-clusterip-80-bec96ffe'
-      # Maybe because I deleted the cluster without deleting the ingress and allowing the load balancer to be cleaned up?
-      # Interestingly I was able to delete from the UI, but that could because some time had elapsed
     desc: Delete the GCP network, subnet, firewall rules, and cluster in reverse sequence
 
-  gcp:connect-to-cluster:
+  gcp:08-connect-to-cluster:
     cmds:
       - gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${GCP_ZONE}
     desc: "Connect to the GKE cluster"
 
-  kind:generate-config:
+  kind:01-generate-config:
     cmds:
       - REPLACE_WITH_ABSOLUTE_PATH=${PWD} envsubst < kind-config.yaml.TEMPLATE > kind-config.yaml
     desc: "Generate kind config with local absolute paths for PV mounts"
 
-  kind:create-cluster:
+  kind:02-create-cluster:
     cmds:
       - kind create cluster --config kind-config.yaml
     desc: Create a Kubernetes cluster using kind
 
-  kind:delete-cluster:
+  kind:03-delete-cluster:
     cmds:
       - kind delete cluster
     desc: Delete and existing a kind Kubernetes cluster
