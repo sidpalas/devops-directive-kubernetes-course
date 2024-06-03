@@ -1,0 +1,20 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-with-backup-config
+spec:
+  instances: 2
+  storage:
+    size: 1Gi
+  backup:
+    barmanObjectStore:
+      destinationPath: "s3://cnpg-backups"
+      endpointURL: "https://objectstore.nyc1.civo.com"
+      s3Credentials:
+        accessKeyId:
+          name: civo-object-store-creds
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: civo-object-store-creds
+          key: AWS_SECRET_ACCESS_KEY
+    retentionPolicy: "30d"

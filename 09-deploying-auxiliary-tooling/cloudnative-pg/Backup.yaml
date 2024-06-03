@@ -1,0 +1,9 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Backup
+metadata:
+  name: now-0
+  namespace: postgres
+spec:
+  method: barmanObjectStore
+  cluster:
+    name: cnpg-with-backup-config
