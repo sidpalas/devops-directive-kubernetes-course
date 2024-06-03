@@ -1,0 +1,54 @@
+version: "3"
+
+includes:
+  ingress:
+    taskfile: ./ingress/Taskfile.yaml
+    dir: ./ingress
+  postgresql:
+    taskfile: ./postgresql/Taskfile.yaml
+    dir: ./postgresql
+
+tasks:
+  apply-namespace:
+    desc: "Apply Kubernetes Namespace"
+    cmds:
+      - kubectl apply -f Namespace.yamls
+
+  api-golang:apply:
+    desc: "Apply kubernetes resource manifests for api-golang application"
+    cmds:
+      - "kubectl apply -f ./api-golang"
+
+  api-node:apply:
+    desc: "Apply kubernetes resource manifests for api-node application"
+    cmds:
+      - "kubectl apply -f ./api-node"
+
+  client-react:apply:
+    desc: "Apply kubernetes resource manifests for client-react application"
+    cmds:
+      - "kubectl apply -f ./client-react"
+
+  load-generator-python:create-image-pull-secret:
+    desc: "Create image pull secret to pull from private registry"
+    env:
+      DOCKER_USERNAME:
+      DOCKER_EMAIL:
+      DOCKER_PASSWORD:
+    cmds:
+      - |
+        if [ -z "$DOCKER_USERNAME" ] || [ -z "$DOCKER_EMAIL" ] || [ -z "$DOCKER_PASSWORD" ]; then
+          echo "Environment variables DOCKER_USERNAME, DOCKER_EMAIL, and DOCKER_PASSWORD are required."
+          exit 1
+        fi
+      - |
+        kubectl create secret -n demo-app docker-registry dockerconfigjson \
+          --docker-email=${DOCKER_EMAIL} \
+          --docker-username=${DOCKER_USERNAME} \
+          --docker-password=${DOCKER_PASSWORD} \
+          --docker-server=docker.io
+
+  load-generator-python:apply:
+    desc: "Apply kubernetes resource manifests for load-generator-python application"
+    cmds:
+      - "kubectl apply -f ./load-generator-python"

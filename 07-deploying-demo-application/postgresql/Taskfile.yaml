@@ -1,0 +1,21 @@
+version: "3"
+
+tasks:
+  deploy-postgres:
+    desc: "Deploy PostgreSQL using Helm"
+    cmds:
+      - helm repo add bitnami https://charts.bitnami.com/bitnami
+      - |
+        helm upgrade --install \
+          -n postgres \
+          postgres bitnami/postgresql \
+          --set auth.postgresPassword=foobarbaz \
+          --version 15.3.2 \
+          --create-namespace
+
+  apply-initial-db-migration-job:
+    desc: "Run init.sql script against the DB"
+    cmds:
+      - "kubectl apply -f Configmap.db-migrations.yaml"
+      - "kubectl apply -f Secret.db-password.yaml"
+      - "kubectl apply -f Job.db-migrator.yaml"

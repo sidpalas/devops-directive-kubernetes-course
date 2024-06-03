@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate-job
+  namespace: demo-app
+spec:
+  template:
+    spec:
+      containers:
+        - name: migrate
+          image: migrate/migrate
+          args:
+            - -path=/migrations
+            - -database=$(DATABASE_URL)?sslmode=disable
+            - up
+          envFrom:
+            - secretRef:
+                name: db-password
+          volumeMounts:
+            - name: migrations
+              mountPath: /migrations
+      restartPolicy: OnFailure
+      volumes:
+        - name: migrations
+          configMap:
+            name: db-migrations

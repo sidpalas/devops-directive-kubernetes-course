@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: load-generator-config
+data:
+  API_URL: api-node.default.svc.cluster.local
+  # API_URL: api-golang.default.svc.cluster.local
+  DELAY_MS: "100"
