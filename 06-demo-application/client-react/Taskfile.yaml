@@ -2,13 +2,14 @@ version: "3"
 
 vars:
   IMAGE_REPO: localhost:5000/devops-directive-docker-course-client-react-nginx
+  # IMAGE_REPO: sidpalas/devops-directive-docker-course-client-react-nginx
   IMAGE_TAG: foobarbaz
 
 tasks:
   build-container-image:
     desc: Build container image
     cmds:
-      - docker build -t {{.IMAGE_TAG}} .
+      - docker build -t {{.IMAGE_REPO}}{{.IMAGE_TAG}} .
 
   build-container-image-multi-arch:
     desc: Build multi-arch container image

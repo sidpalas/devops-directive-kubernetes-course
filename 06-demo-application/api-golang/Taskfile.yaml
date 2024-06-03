@@ -3,6 +3,7 @@ version: "3"
 vars:
   DATABASE_URL: "postgres://postgres:foobarbaz@localhost:5432/postgres"
   IMAGE_REPO: localhost:5000/devops-directive-docker-course-api-golang
+  # IMAGE_REPO: sidpalas/devops-directive-docker-course-api-golang
   IMAGE_TAG: foobarbaz
 
 tasks:
