@@ -17,9 +17,10 @@ spec:
       containers:
         - name: load-generator
           image: sidpalas/devops-directive-kubernetes-course-load-generator-python:foobarbaz
+          imagePullPolicy: Always
           env:
             - name: API_URL
-              value: api-node.default.svc.cluster.local
+              value: http://api-node.demo-app.svc.cluster.local:3000
             - name: DELAY_MS
               value: "100"
           # Could alternatively move these to a configmap

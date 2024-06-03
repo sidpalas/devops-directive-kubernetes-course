@@ -8,15 +8,14 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`docker-course-kubernetes.devopsdirective.com`)
+      match: Host(`kubernetes-course.devopsdirective.com`)
       services:
         - kind: Service
           name: client-react-nginx
-          namespace: default
           port: 8080
           scheme: http
     - kind: Rule
-      match: Host(`docker-course-kubernetes.devopsdirective.com`) && PathPrefix(`/api/node`)
+      match: Host(`kubernetes-course.devopsdirective.com`) && PathPrefix(`/api/node`)
       middlewares:
         - name: strip-api-prefixes
       services:
@@ -25,7 +24,7 @@ spec:
           port: 3000
           scheme: http
     - kind: Rule
-      match: Host(`docker-course-kubernetes.devopsdirective.com`) && PathPrefix(`/api/golang`)
+      match: Host(`kubernetes-course.devopsdirective.com`) && PathPrefix(`/api/golang`)
       middlewares:
         - name: strip-api-prefixes
       services:

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: api-node
-          image: sidpalas/devops-directive-docker-course-api-node:9
+          image: sidpalas/devops-directive-docker-course-api-node:foobarbaz
           env:
             - name: PORT
               value: "3000"

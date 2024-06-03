@@ -16,9 +16,8 @@ spec:
         app: client-react-nginx
     spec:
       containers:
-        - image: sidpalas/devops-directive-docker-course-client-react-nginx:5
+        - image: sidpalas/devops-directive-docker-course-client-react-nginx:foobarbaz
           name: client-react-nginx
-          imagePullPolicy: Always
           ports:
             - containerPort: 8080
               protocol: TCP
