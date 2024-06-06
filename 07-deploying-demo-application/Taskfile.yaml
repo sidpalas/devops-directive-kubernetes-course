@@ -52,4 +52,21 @@ tasks:
   load-generator-python:apply:
     desc: "Apply kubernetes resource manifests for load-generator-python application"
     cmds:
+      - cmd: |
+          gum style \
+          "🚨  🚨  🚨 "
+          "You will need to push a copy of the corresponding container image" \
+          "container image to a registry of your own because sidpalas/devops-directive-kubernetes-course-load-generator-python" \
+          "is private (to demonstrate how image pull secrets work)" \
+          "🚨  🚨  🚨 "
+        silent: true
       - "kubectl apply -f ./load-generator-python"
+
+  apply-all:
+    - task: apply-namespace
+    - task: postgresql:deploy-postgres
+    - task: postgresql:apply-initial-db-migration-job
+    - task: api-golang:apply
+    - task: api-node:apply
+    - task: client-react:apply
+    - task: load-generator-python:apply
