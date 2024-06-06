@@ -23,7 +23,7 @@ spec:
             - name: API_URL
               value: http://api-node.demo-app.svc.cluster.local:3000
             - name: DELAY_MS
-              value: "100"
+              value: "500"
           # Could alternatively move these to a configmap
           # envFrom:
           #   - configMapRef:
