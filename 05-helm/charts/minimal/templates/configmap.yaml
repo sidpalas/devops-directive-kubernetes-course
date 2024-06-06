@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: helm-{{ .Release.Name }}-configmap
 data:
+  appVersion: {{ .Chart.AppVersion }}
   environment: {{ .Values.environment | quote }}
   envShort: {{ template "envShort" . }} 
   {{- range .Values.configData }}
