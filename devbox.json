@@ -20,7 +20,8 @@
     "poetry@latest",
     "python312@latest",
     "go@latest",
-    "nodejs_20@latest"
+    "nodejs_20@latest",
+    "tilt@latest"
   ],
   "shell": {
     "init_hook": ["echo 'Welcome to devbox!' > /dev/null"],
