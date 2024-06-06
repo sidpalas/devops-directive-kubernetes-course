@@ -12,7 +12,8 @@ tasks:
   apply-namespace:
     desc: "Apply Kubernetes Namespace"
     cmds:
-      - kubectl apply -f Namespace.yamls
+      - kubectl apply -f Namespace.yaml
+      - kubens demo-app
 
   api-golang:apply:
     desc: "Apply kubernetes resource manifests for api-golang application"
@@ -46,7 +47,7 @@ tasks:
           --docker-email=${DOCKER_EMAIL} \
           --docker-username=${DOCKER_USERNAME} \
           --docker-password=${DOCKER_PASSWORD} \
-          --docker-server=docker.io
+          --docker-server=https://index.docker.io/v1
 
   load-generator-python:apply:
     desc: "Apply kubernetes resource manifests for load-generator-python application"

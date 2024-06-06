@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: migrate
-          image: migrate/migrate
+          image: migrate/migrate:v4.17.1
           args:
             - -path=/migrations
             - -database=$(DATABASE_URL)?sslmode=disable
