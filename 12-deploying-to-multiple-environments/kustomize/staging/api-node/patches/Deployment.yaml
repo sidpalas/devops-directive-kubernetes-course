@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-node
+  namespace: demo-app
+spec:
+  template:
+    spec:
+      containers:
+        - name: api-node
+          image: sidpalas/devops-directive-docker-course-api-node:STAGING_VERSION

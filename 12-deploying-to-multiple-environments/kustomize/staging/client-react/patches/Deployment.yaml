@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-react-nginx
+  namespace: demo-app
+spec:
+  template:
+    spec:
+      containers:
+        - name: client-react-nginx
+          image: sidpalas/devops-directive-docker-course-client-react-nginx:STAGING_VERSION

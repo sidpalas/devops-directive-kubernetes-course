@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: demo-app
+resources:
+  - ../../base/load-generator-python/
+patches:
+  - path: ./patches/Deployment.yaml

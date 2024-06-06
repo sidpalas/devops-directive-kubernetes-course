@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-generator-python
+  namespace: demo-app
+spec:
+  template:
+    spec:
+      containers:
+        - name: load-generator
+          image: sidpalas/devops-directive-kubernetes-course-load-generator-python:PRODUCTION_VERSION

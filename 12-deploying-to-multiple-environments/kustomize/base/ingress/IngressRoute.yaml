@@ -1,0 +1,9 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: primary
+  namespace: demo-app
+spec:
+  entryPoints:
+    - web
+  routes: {} # POPULATED BY PATCH

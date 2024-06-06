@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-generator-python
+  namespace: demo-app
+  labels:
+    app: load-generator-python
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: load-generator-python
+  template:
+    metadata:
+      labels:
+        app: load-generator-python
+    spec:
+      containers:
+        - name: load-generator
+          image: sidpalas/devops-directive-kubernetes-course-load-generator-python:foobarbaz
+          imagePullPolicy: Always
+          env:
+            - name: API_URL
+              value: http://api-node.demo-app.svc.cluster.local:3000
+            - name: DELAY_MS
+              value: "500"
+          # Could alternatively move these to a configmap
+          # envFrom:
+          #   - configMapRef:
+          #       name: load-generator-config
+          resources:
+            limits:
+              memory: "50Mi"
+            requests:
+              memory: "50Mi"
+              cpu: "100m"
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+      imagePullSecrets:
+        - name: dockerconfigjson
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

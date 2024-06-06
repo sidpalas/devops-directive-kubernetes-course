@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-golang
+  namespace: demo-app
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: api-golang
+          image: sidpalas/devops-directive-docker-course-api-golang:PRODUCTION_VERSION
