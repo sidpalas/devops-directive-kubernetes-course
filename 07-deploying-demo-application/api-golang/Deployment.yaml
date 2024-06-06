@@ -20,17 +20,17 @@ spec:
           image: sidpalas/devops-directive-docker-course-api-golang:foobarbaz
           env:
             - name: PORT
-              value: "8080"
+              value: "8000"
           envFrom:
             - secretRef:
                 name: api-golang-database-url
           ports:
-            - containerPort: 8080
+            - containerPort: 8000
               protocol: TCP
           readinessProbe:
             httpGet:
               path: /ping
-              port: 8080
+              port: 8000
           resources:
             limits:
               memory: "100Mi"

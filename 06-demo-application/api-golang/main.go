@@ -51,5 +51,11 @@ func main() {
 		c.JSON(200, "pong")
 	})
 
-	r.Run() // listen and serve on 0.0.0.0:8080 (or "PORT" env var)
+	port := os.Getenv("PORT")
+	if port == "" {
+		// Defaulting to 8000 to deconflict with unprivileged nginx container
+		port = "8000"
+	}
+
+	r.Run(":" + port) // listen and serve on 0.0.0.0:8000 (or "PORT" env var if set)}
 }
