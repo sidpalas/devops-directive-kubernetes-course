@@ -1,0 +1,6 @@
+docker_build(
+  'sidpalas/devops-directive-docker-course-api-node', 
+  './',
+)
+k8s_yaml('../../07-deploying-demo-application/api-node/Deployment.yaml')
+k8s_resource('api-node', port_forwards=3000)

@@ -1,0 +1,8 @@
+load('ext://ko', 'ko_build')
+ko_build(
+  'sidpalas/devops-directive-docker-course-api-golang', 
+  './',
+  deps=['.']
+)
+k8s_yaml('../../07-deploying-demo-application/api-golang/Deployment.yaml')
+k8s_resource('api-golang', port_forwards=8000)

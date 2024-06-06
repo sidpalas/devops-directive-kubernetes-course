@@ -1,0 +1,5 @@
+docker_build(
+  'sidpalas/devops-directive-kubernetes-course-load-generator-python', 
+  './',
+)
+k8s_yaml('../../07-deploying-demo-application/load-generator-python/Deployment.yaml')
