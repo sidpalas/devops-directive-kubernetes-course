@@ -1,20 +1,14 @@
 version: "3"
 
 includes:
-  ingress:
-    taskfile: ./ingress/Taskfile.yaml
-    dir: ./ingress
+  common:
+    taskfile: ./common/Taskfile.yaml
+    dir: ./common
   postgresql:
     taskfile: ./postgresql/Taskfile.yaml
     dir: ./postgresql
 
 tasks:
-  apply-namespace:
-    desc: "Apply Kubernetes Namespace"
-    cmds:
-      - kubectl apply -f Namespace.yaml
-      - kubens demo-app
-
   api-golang:apply:
     desc: "Apply kubernetes resource manifests for api-golang application"
     cmds:
@@ -53,19 +47,24 @@ tasks:
     desc: "Apply kubernetes resource manifests for load-generator-python application"
     cmds:
       - cmd: |
-          gum style \
-          "🚨  🚨  🚨 "
-          "You will need to push a copy of the corresponding container image" \
-          "container image to a registry of your own because sidpalas/devops-directive-kubernetes-course-load-generator-python" \
-          "is private (to demonstrate how image pull secrets work)" \
-          "🚨  🚨  🚨 "
+          gum style "$(cat <<EOF
+          🚨  🚨  🚨
+
+          You will need to push a copy of the corresponding container image
+          container image to a registry of your own because sidpalas/devops-directive-kubernetes-course-load-generator-python
+          is private (to demonstrate how image pull secrets work)
+
+          🚨  🚨  🚨
+          EOF
+          )"
         silent: true
       - "kubectl apply -f ./load-generator-python"
 
   apply-all:
-    - task: apply-namespace
-    - task: postgresql:deploy-postgres
+    - task: common:apply-namespace
+    - task: postgresql:install-postgres
     - task: postgresql:apply-initial-db-migration-job
+    - task: common:deploy-traefik
     - task: api-golang:apply
     - task: api-node:apply
     - task: client-react:apply

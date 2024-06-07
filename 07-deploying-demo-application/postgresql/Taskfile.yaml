@@ -1,7 +1,7 @@
 version: "3"
 
 tasks:
-  deploy-postgres:
+  install-postgres:
     desc: "Deploy PostgreSQL using Helm"
     cmds:
       - helm repo add bitnami https://charts.bitnami.com/bitnami
