@@ -1,0 +1,65 @@
+version: "3"
+
+env:
+  BORDER: double
+  BORDER_FOREGROUND: "212"
+  PADDING: "1 1"
+  MARGIN: "1 1"
+
+tasks:
+  01-install-external-secrets:
+    desc: "Install external secrets operator"
+    cmds:
+      - helm repo add external-secrets https://charts.external-secrets.io
+      - |
+        helm install external-secrets \
+          external-secrets/external-secrets \
+          -n external-secrets \
+          --create-namespace \
+          --version 0.9.19
+
+  02-create-iam-service-account:
+    desc: "Create GCP IAM service account and attach necessary permissions"
+    cmds:
+      - |
+        gcloud iam service-accounts create external-secrets \
+          --display-name "External Secrets Service Account"
+      - cmd: gum style "Attach roles/secretmanager.secretAccessor to IAM service account"
+        silent: true
+      - |
+        gcloud projects add-iam-policy-binding kubernetes-course-424917 \
+          --member="serviceAccount:external-secrets@kubernetes-course-424917.iam.gserviceaccount.com" \
+          --role="roles/secretmanager.secretAccessor"
+      - cmd: gum style "Attach roles/iam.workloadIdentityUser to kubernetes service account"
+        silent: true
+      - |
+        gcloud iam service-accounts add-iam-policy-binding external-secrets@kubernetes-course-424917.iam.gserviceaccount.com \
+          --role roles/iam.workloadIdentityUser \
+          --member "serviceAccount:kubernetes-course-424917.svc.id.goog[external-secrets/external-secrets]"
+
+  03-annotate-kubernetes-service-account:
+    cmds:
+      - cmd: gum style "Annotate k8s service account to allow it to use IAM serivce account via workload identity"
+        silent: true
+      - kubectl apply -f ServiceAccount.yaml
+    desc: "Add annotation to kubernetes service account for workload identity"
+
+  04-apply-cluster-secret-store:
+    cmds:
+      - kubectl apply -f ClusterSecretStore.yaml
+
+  05-apply-external-secret:
+    cmds:
+      - kubectl apply -f ExternalSecret.yaml
+
+  07-get-secret-value:
+    cmds:
+      - kubectl get secrets external-secrets-example-k8s -o yaml | yq
+      - kubectl get secrets external-secrets-example-k8s -o yaml | yq '.data.key-k8s' | base64 -d
+
+  08-delete-namespace:
+    desc: "Delete the namespace to clean up"
+    cmds:
+      - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
+        silent: true
+      - kubectl delete ns external-secrets
