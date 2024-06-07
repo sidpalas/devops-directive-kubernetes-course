@@ -3,5 +3,6 @@ kind: Kustomization
 namespace: demo-app
 resources:
   - Deployment.yaml
+  - IngressRoute.yaml
   - Secret.yaml
   - Service.yaml

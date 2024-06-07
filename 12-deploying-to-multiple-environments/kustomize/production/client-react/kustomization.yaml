@@ -5,3 +5,10 @@ resources:
   - ../../base/client-react/
 patches:
   - path: ./patches/Deployment.yaml
+  - path: ./patches/IngressRoute.replace-host.yaml
+    target:
+      group: traefik.containo.us
+      kind: IngressRoute
+      name: client-react-nginx
+      namespace: demo-app
+      version: v1alpha1

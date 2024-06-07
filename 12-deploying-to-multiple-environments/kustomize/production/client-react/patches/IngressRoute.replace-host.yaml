@@ -1,0 +1,3 @@
+- op: replace
+  path: /spec/routes/0/match
+  value: "Host(`kubernetes-course.devopsdirective.com`)"

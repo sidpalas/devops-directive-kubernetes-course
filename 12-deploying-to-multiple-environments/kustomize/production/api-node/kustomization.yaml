@@ -5,3 +5,10 @@ resources:
   - ../../base/api-node/
 patches:
   - path: ./patches/Deployment.yaml
+  - path: ./patches/IngressRoute.replace-host.yaml
+    target:
+      group: traefik.containo.us
+      kind: IngressRoute
+      name: api-node
+      namespace: demo-app
+      version: v1alpha1
