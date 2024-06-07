@@ -1,0 +1,6 @@
+apiVersion: v2
+name: api-golang-helm-chart
+description: A minimal helm chart for deploying api-golang
+type: application
+version: 0.1.0
+appVersion: foobarbaz

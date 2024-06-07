@@ -1,0 +1,3 @@
+environmentPostfix: ""
+replicas: 1
+version: DEFAULT_VERSION

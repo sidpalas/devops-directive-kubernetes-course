@@ -1,0 +1,31 @@
+version: "3"
+
+tasks:
+  template-default:
+    cmds:
+      - helm template ./api-golang-helm-chart
+    desc: "Render chart yaml with default values"
+
+  template-staging:
+    cmds:
+      - helm template ./api-golang-helm-chart --values=./api-golang-helm-chart/values.staging.yaml
+    desc: "Render chart yaml with staging values file"
+
+  template-production:
+    cmds:
+      - helm template ./api-golang-helm-chart --values=./api-golang-helm-chart/values.production.yaml
+    desc: "Render chart yaml with production values file"
+
+  package:
+    cmds:
+      - helm package ./api-golang-helm-chart
+    desc: "Bundle helm chart as a .tgz OCI image"
+
+  push:
+    cmds:
+      - helm push api-golang-helm-chart-0.1.0.tgz oci://registry-1.docker.io/sidpalas
+
+  build-push:
+    cmds:
+      - task: build
+      - task: push
