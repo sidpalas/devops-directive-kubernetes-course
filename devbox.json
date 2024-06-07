@@ -21,7 +21,8 @@
     "python312@latest",
     "go@latest",
     "nodejs_20@latest",
-    "tilt@latest"
+    "tilt@latest",
+    "kluctl@latest"
   ],
   "shell": {
     "init_hook": ["echo 'Welcome to devbox!' > /dev/null"],

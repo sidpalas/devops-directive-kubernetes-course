@@ -613,6 +613,54 @@
         }
       }
     },
+    "kluctl@latest": {
+      "last_modified": "2024-05-29T10:04:41Z",
+      "resolved": "github:NixOS/nixpkgs/ac82a513e55582291805d6f09d35b6d8b60637a1#kluctl",
+      "source": "devbox-search",
+      "version": "2.22.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/l5klfcpnc94ahiqnfygbyhp36bw5pk5f-kluctl-2.22.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/l5klfcpnc94ahiqnfygbyhp36bw5pk5f-kluctl-2.22.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/pcdv9niyll6zz4j66q78yiwjiqyw6rpi-kluctl-2.22.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/pcdv9niyll6zz4j66q78yiwjiqyw6rpi-kluctl-2.22.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/bs5jlmxmjafsfbw1qswyysswb3dp0w3g-kluctl-2.22.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/bs5jlmxmjafsfbw1qswyysswb3dp0w3g-kluctl-2.22.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/2syivcp11gkk27ldiw768mrx14hag1xj-kluctl-2.22.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/2syivcp11gkk27ldiw768mrx14hag1xj-kluctl-2.22.1"
+        }
+      }
+    },
     "ko@latest": {
       "last_modified": "2024-05-22T06:18:38Z",
       "resolved": "github:NixOS/nixpkgs/3f316d2a50699a78afe5e77ca486ad553169061e#ko",
