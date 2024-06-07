@@ -5,7 +5,7 @@ env:
   BORDER_FOREGROUND: "212"
   PADDING: "1 1"
   MARGIN: "1 1"
-  NAMESPACE: 05--charts
+  NAMESPACE: microservices-demo
 
 tasks:
   01-create-namespace:
