@@ -105,6 +105,7 @@ tasks:
           container.googleapis.com \
           cloudresourcemanager.googleapis.com \
           iam.googleapis.com \
+          secretmanager.googleapis.com \
           servicemanagement.googleapis.com \
           serviceusage.googleapis.com
     desc: "Enable necessary APIs"
@@ -138,7 +139,8 @@ tasks:
           --subnetwork subnet-1 \
           --machine-type e2-standard-2 \
           --num-nodes 2 \
-          --gateway-api=standard
+          --gateway-api=standard \
+          --workload-pool=kubernetes-course-424917.svc.id.goog
     desc: "Create GKE cluster"
 
   gcp:07-create-all:
