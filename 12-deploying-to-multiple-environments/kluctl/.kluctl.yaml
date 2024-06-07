@@ -1,0 +1,15 @@
+discriminator: api-node-kluctl-{{ target.name }}
+
+targets:
+  - name: production
+    args:
+      version: PRODUCTION_VERSION
+      environmentPostfix: ""
+  - name: staging
+    args:
+      version: STAGING_VERSION
+      environmentPostfix: "-staging"
+
+args:
+  - name: version
+  - name: environmentPostfix

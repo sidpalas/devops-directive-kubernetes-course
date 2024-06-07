@@ -1,0 +1,12 @@
+version: "3"
+
+tasks:
+  render-staging:
+    cmds:
+      - kluctl render -t staging --print-all
+    desc: "Render resource yaml with staging values"
+
+  render-production:
+    cmds:
+      - kluctl render -t staging --print-all
+    desc: "Render resource yaml with production values"
