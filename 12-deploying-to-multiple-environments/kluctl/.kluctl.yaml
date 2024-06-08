@@ -16,13 +16,22 @@ targets:
   - name: staging
     args:
       apiGolang:
-        version: API_NODE_STAGING_VERSION
+        version: foobarbaz
       apiNode:
-        version: API_NODE_STAGING_VERSION
+        version: foobarbaz
       clientReact:
-        version: CLIENT_REACT_STAGING_VERSION
+        version: foobarbaz
       loadGeneratorPython:
-        version: LOAD_GENERATOR_PYTHON_STAGING_VERSION
+        version: foobarbaz
+      # args:
+      #   apiGolang:
+      #     version: API_NODE_STAGING_VERSION
+      #   apiNode:
+      #     version: API_NODE_STAGING_VERSION
+      #   clientReact:
+      #     version: CLIENT_REACT_STAGING_VERSION
+      #   loadGeneratorPython:
+      #     version: LOAD_GENERATOR_PYTHON_STAGING_VERSION
       environmentPostfix: "-staging"
 
 args:
