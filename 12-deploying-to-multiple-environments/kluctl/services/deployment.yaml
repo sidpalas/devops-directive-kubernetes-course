@@ -1,0 +1,5 @@
+deployments:
+  - path: api-golang
+  - path: api-node
+  - path: client-react
+  - path: load-generator-python
