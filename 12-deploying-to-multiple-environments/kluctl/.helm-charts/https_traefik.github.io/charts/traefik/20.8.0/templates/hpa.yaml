@@ -1,0 +1,39 @@
+{{- if .Values.autoscaling.enabled }}
+
+{{- if not .Values.autoscaling.maxReplicas }}
+  {{- fail "ERROR: maxReplicas is required on HPA" }}
+{{- end }}
+
+{{- if .Capabilities.APIVersions.Has "autoscaling/v2" }}
+apiVersion: autoscaling/v2
+{{- else if .Capabilities.APIVersions.Has "autoscaling/v2beta2" }}
+apiVersion: autoscaling/v2beta2
+{{- else if .Capabilities.APIVersions.Has "autoscaling/v2beta1" }}
+apiVersion: autoscaling/v2beta1
+{{- else }}
+  {{- fail "ERROR: You must have at least autoscaling/v2beta1 to use HorizontalPodAutoscaler" }}
+{{- end }}
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "traefik.fullname" . }}
+  namespace: {{ template "traefik.namespace" . }}
+  labels:
+    {{- include "traefik.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ template "traefik.fullname" . }}
+{{- if .Values.autoscaling.minReplicas }}
+  minReplicas: {{ .Values.autoscaling.minReplicas }}
+{{- end }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+{{- if .Values.autoscaling.metrics }}
+  metrics:
+{{ toYaml .Values.autoscaling.metrics | indent 4 }}
+{{- end }}
+{{- if .Values.autoscaling.behavior }}
+  behavior:
+{{ toYaml .Values.autoscaling.behavior | indent 4 }}
+{{- end }}
+{{- end }}

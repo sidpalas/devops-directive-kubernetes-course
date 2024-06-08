@@ -1,6 +1,11 @@
 version: "3"
 
 tasks:
+  helm-pull:
+    cmds:
+      - kluctl helm-pull
+    desc: "Pre-pull helm charts"
+
   render-staging:
     cmds:
       - kluctl render -t staging --print-all

@@ -1,0 +1,25 @@
+{{- if .Values.hub.enabled -}}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-hub
+  namespace: {{ template "traefik.namespace" . }}
+  {{- template "traefik.service-metadata" . }}
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "traefik.labelselector" . | nindent 4 }}
+  ports:
+  - port: {{ .Values.ports.metrics.port }}
+    name: "metrics"
+    targetPort: metrics
+    protocol: TCP
+    {{- if .Values.ports.metrics.nodePort }}
+    nodePort: {{ .Values.ports.metrics.nodePort }}
+    {{- end }}
+  - port: {{ default 9901 .Values.hub.tunnelPort }}
+    name: "traefikhub-tunl"
+    targetPort: traefikhub-tunl
+    protocol: TCP
+{{- end -}}

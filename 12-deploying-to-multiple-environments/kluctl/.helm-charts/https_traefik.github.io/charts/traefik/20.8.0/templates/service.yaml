@@ -1,0 +1,67 @@
+{{- if .Values.service.enabled -}}
+
+{{- $tcpPorts := dict -}}
+{{- $udpPorts := dict -}}
+{{- $exposedPorts := false -}}
+{{- range $name, $config := .Values.ports -}}
+  {{- if $config.http3 -}}
+  {{- if $config.http3.enabled -}}
+    {{- if (not $config.tls.enabled) -}}
+      {{- fail "ERROR: You cannot enable http3 without enabling tls" -}}
+    {{- end -}}
+  {{- end -}}
+  {{- end -}}
+  {{- if eq (toString $config.protocol) "UDP" -}}
+    {{ $_ := set $udpPorts $name $config -}}
+  {{- end -}}
+  {{- if eq (toString (default "TCP" $config.protocol)) "TCP" -}}
+    {{ $_ := set $tcpPorts $name $config -}}
+  {{- end -}}
+  {{- if (eq $config.expose true) -}}
+    {{- $exposedPorts = true -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if and (eq $exposedPorts false) (not .Values.hub.enabled) -}}
+  {{- fail "You need to expose at least one port or set enabled=false to service" -}}
+{{- end -}}
+
+{{- if and $exposedPorts (or $tcpPorts .Values.service.single) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "traefik.fullname" . }}
+  namespace: {{ template "traefik.namespace" . }}
+  {{- template "traefik.service-metadata" . }}
+  annotations:
+  {{- with (merge .Values.service.annotationsTCP .Values.service.annotations) }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- template "traefik.service-spec" . }}
+  ports:
+  {{- template "traefik.service-ports" $tcpPorts }}
+{{- if .Values.service.single }}
+  {{- template "traefik.service-ports" $udpPorts }}
+{{- end }}
+{{- end }}
+
+{{- if and $exposedPorts (and $udpPorts (not .Values.service.single)) }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "traefik.fullname" . }}-udp
+  namespace: {{ template "traefik.namespace" . }}
+  {{- template "traefik.service-metadata" . }}
+  annotations:
+  {{- with (merge .Values.service.annotationsUDP .Values.service.annotations) }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- template "traefik.service-spec" . }}
+  ports:
+  {{- template "traefik.service-ports" $udpPorts }}
+{{- end }}
+
+{{- end -}}

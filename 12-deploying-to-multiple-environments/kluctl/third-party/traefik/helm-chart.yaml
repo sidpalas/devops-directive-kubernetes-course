@@ -1,0 +1,7 @@
+helmChart:
+  repo: https://traefik.github.io/charts
+  chartName: traefik
+  chartVersion: 20.8.0
+  releaseName: traefik
+  namespace: traefik
+  output: deploy.yaml

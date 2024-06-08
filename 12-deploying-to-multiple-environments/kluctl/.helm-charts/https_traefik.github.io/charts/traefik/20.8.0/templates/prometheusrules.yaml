@@ -1,0 +1,28 @@
+{{- if .Values.metrics.prometheus }}
+{{- if .Values.metrics.prometheus.prometheusRule }}
+{{- if (not (.Capabilities.APIVersions.Has "monitoring.coreos.com/v1")) }}
+  {{- fail "ERROR: You have to deploy monitoring.coreos.com/v1 first" }}
+{{- end }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ template "traefik.fullname" . }}
+  {{- if .Values.metrics.prometheus.prometheusRule.namespace }}
+  namespace: {{ .Values.metrics.prometheus.prometheusRule.namespace }}
+  {{- end }}
+  labels:
+    {{- include "traefik.labels" . | nindent 4 }}
+    {{- with .Values.metrics.prometheus.prometheusRule.additionalLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- if .Values.metrics.prometheus.prometheusRule.rules }}
+  groups:
+  - name: {{ template "traefik.name" $ }}
+    rules:
+    {{- with .Values.metrics.prometheus.prometheusRule.rules }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}

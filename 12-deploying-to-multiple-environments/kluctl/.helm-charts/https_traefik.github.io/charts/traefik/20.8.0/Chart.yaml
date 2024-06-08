@@ -1,0 +1,31 @@
+annotations:
+  artifacthub.io/changes: |
+    - "✨ update chart to version 20.8.0"
+    - "✨ add support for default entrypoints"
+    - "✨ add support for OpenTelemetry and Traefik v3"
+apiVersion: v2
+appVersion: v2.9.6
+description: A Traefik based Kubernetes ingress controller
+home: https://traefik.io/
+icon: https://raw.githubusercontent.com/traefik/traefik/v2.3/docs/content/assets/img/traefik.logo.png
+keywords:
+- traefik
+- ingress
+- networking
+maintainers:
+- email: emile@vauge.com
+  name: emilevauge
+- email: daniel.tomcej@gmail.com
+  name: dtomcej
+- email: ldez@traefik.io
+  name: ldez
+- email: michel.loiseleur@traefik.io
+  name: mloiseleur
+- email: charlie.haley@traefik.io
+  name: charlie-haley
+name: traefik
+sources:
+- https://github.com/traefik/traefik
+- https://github.com/traefik/traefik-helm-chart
+type: application
+version: 20.8.0

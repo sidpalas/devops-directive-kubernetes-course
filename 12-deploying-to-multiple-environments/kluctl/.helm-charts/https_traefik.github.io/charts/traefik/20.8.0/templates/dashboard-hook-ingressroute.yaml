@@ -1,0 +1,36 @@
+{{- if .Values.ingressRoute.dashboard.enabled -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ template "traefik.fullname" . }}-dashboard
+  namespace: {{ template "traefik.namespace" . }}
+  annotations:
+    helm.sh/hook: "post-install,post-upgrade"
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ template "traefik.namespace" . }}
+    {{- with .Values.ingressRoute.dashboard.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  labels:
+    {{- include "traefik.labels" . | nindent 4 }}
+    {{- with .Values.ingressRoute.dashboard.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  entryPoints:
+  {{- range .Values.ingressRoute.dashboard.entryPoints }}
+  - {{ . }}
+  {{- end }}
+  routes:
+  - match: {{ .Values.ingressRoute.dashboard.matchRule }}
+    kind: Rule
+    services:
+    - name: api@internal
+      kind: TraefikService
+    {{- if .Values.ingressRoute.dashboard.middlewares }}
+    middlewares:
+      {{- with .Values.ingressRoute.dashboard.middlewares }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+    {{- end -}}
+{{- end -}}

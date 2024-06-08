@@ -1,2 +1,10 @@
 deployments:
-  - path: api-node
+  - path: common
+  - path: services/api-golang
+  - path: services/api-node
+  - path: services/client-react
+  - path: services/load-generator-python
+  - path: third-party/traefik
+
+commonLabels:
+  devopsdirective.com/course: "kubernetes-course"
