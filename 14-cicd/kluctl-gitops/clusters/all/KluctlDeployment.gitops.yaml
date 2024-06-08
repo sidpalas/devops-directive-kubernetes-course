@@ -1,0 +1,19 @@
+apiVersion: gitops.kluctl.io/v1beta1
+kind: KluctlDeployment
+metadata:
+  name: gitops
+  namespace: kluctl-gitops
+spec:
+  interval: 5m
+  source:
+    git:
+      url: https://github.com/sidpalas/devops-directive-kubernetes-course.git
+      path: 14-cicd
+  target: civo-cluster
+  args:
+    # this passes the cluster_name initially passed via `kluctl deploy -a cluster_name=xxx.example.com` into the KluctlDeployment
+    cluster_name: {{args.cluster_name}}
+  context: default
+  # let it automatically clean up orphan KluctlDeployment resources
+  prune: true
+  delete: true

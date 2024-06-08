@@ -11,7 +11,17 @@ tasks:
       - kluctl render -t staging --print-all
     desc: "Render resource yaml with staging values"
 
+  deploy-staging:
+    cmds:
+      - kluctl deploy -t staging
+    desc: "Deploy staging configuration"
+
   render-production:
     cmds:
       - kluctl render -t staging --print-all
     desc: "Render resource yaml with production values"
+
+  deploy-production:
+    cmds:
+      - kluctl deploy -t production
+    desc: "Deploy production configuration"
