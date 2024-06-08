@@ -1,0 +1,7 @@
+helmChart:
+  repo: https://charts.bitnami.com/bitnami
+  chartName: postgresql
+  chartVersion: 15.3.2
+  releaseName: postgres
+  namespace: postgres
+  output: deploy.yaml
