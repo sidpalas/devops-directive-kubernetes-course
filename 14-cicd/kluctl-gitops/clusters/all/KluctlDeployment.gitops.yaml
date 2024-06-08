@@ -8,7 +8,7 @@ spec:
   source:
     git:
       url: https://github.com/sidpalas/devops-directive-kubernetes-course.git
-      path: 14-cicd
+      path: 14-cicd/kluctl-gitops
   target: civo-cluster
   args:
     # this passes the cluster_name initially passed via `kluctl deploy -a cluster_name=xxx.example.com` into the KluctlDeployment
