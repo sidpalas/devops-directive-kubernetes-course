@@ -4,4 +4,4 @@ helmChart:
   chartVersion: 15.3.2
   releaseName: postgres
   namespace: postgres
-  output: deploy.yaml
+  output: helm-rendered.yaml

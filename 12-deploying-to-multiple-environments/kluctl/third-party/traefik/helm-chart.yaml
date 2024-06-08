@@ -4,4 +4,4 @@ helmChart:
   chartVersion: 20.8.0
   releaseName: traefik
   namespace: traefik
-  output: deploy.yaml
+  output: helm-rendered.yaml
