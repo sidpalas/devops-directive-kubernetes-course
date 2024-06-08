@@ -1,4 +1,6 @@
 deployments:
+  - path: namespaces
+  - barrier: true
   - path: common
   - path: services/api-golang
   - path: services/api-node
