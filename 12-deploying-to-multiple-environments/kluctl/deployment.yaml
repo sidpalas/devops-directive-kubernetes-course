@@ -1,3 +1,6 @@
+vars:
+  - file: config/{{ args.environment }}.yaml
+
 deployments:
   - path: namespaces
   - barrier: true

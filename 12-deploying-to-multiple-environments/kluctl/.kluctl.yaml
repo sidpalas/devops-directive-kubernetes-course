@@ -3,49 +3,14 @@ discriminator: api-node-kluctl-{{ target.name }}
 targets:
   - name: production
     args:
-      apiGolang:
-        version: API_NODE_PRODUCTION_VERSION
-      apiNode:
-        version: API_NODE_PRODUCTION_VERSION
-      clientReact:
-        version: CLIENT_REACT_PRODUCTION_VERSION
-      loadGeneratorPython:
-        version: LOAD_GENERATOR_PYTHON_PRODUCTION_VERSION
-      version: PRODUCTION_VERSION
-      environmentPostfix: ""
+      environment: production
+      environmentType: prod
+
   - name: staging
     args:
-      apiGolang:
-        version: foobarbaz
-      apiNode:
-        version: foobarbaz
-      clientReact:
-        version: foobarbaz
-      loadGeneratorPython:
-        version: foobarbaz
-      # args:
-      #   apiGolang:
-      #     version: API_NODE_STAGING_VERSION
-      #   apiNode:
-      #     version: API_NODE_STAGING_VERSION
-      #   clientReact:
-      #     version: CLIENT_REACT_STAGING_VERSION
-      #   loadGeneratorPython:
-      #     version: LOAD_GENERATOR_PYTHON_STAGING_VERSION
-      environmentPostfix: "-staging"
+      environment: staging
+      environmentType: non-prod
 
 args:
-  - name: apiGolang
-    default:
-      version: DEFAULT_VERSION
-  - name: apiNode
-    default:
-      version: DEFAULT_VERSION
-  - name: clientReact
-    default:
-      version: DEFAULT_VERSION
-  - name: loadGeneratorPython
-    default:
-      version: DEFAULT_VERSION
-  - name: environmentPostfix
-    default: ""
+  - name: environment
+  - name: environmentType
