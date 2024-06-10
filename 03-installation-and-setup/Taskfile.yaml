@@ -40,8 +40,8 @@ tasks:
       - cmd: gum style "There is some delay on the civo side from cluster being deleted to it being removed from the firewall rule usage"
         silent: true
       - sleep 10
-      - civo firewall delete devops-directive-kubernetes-course -y
-      - civo network delete devops-directive-kubernetes-course -y
+      - civo firewall delete ${CLUSTER_NAME} -y
+      - civo network delete ${CLUSTER_NAME} -y
     desc: Clean up the Civo Kubernetes cluster and associated resources
 
   civo:04-create-all:
@@ -55,10 +55,10 @@ tasks:
     cmds:
       - |
         civo kubernetes create ${CLUSTER_NAME} \
-          --network devops-directive-kubernetes-course \
-          --existing-firewall devops-directive-kubernetes-course \
+          --network ${CLUSTER_NAME} \
+          --existing-firewall ${CLUSTER_NAME} \
           --nodes 2 \
-          --size g4s.kube.small \
+          --size g4s.kube.medium \
           --remove-applications "traefik2-nodeport" \
           --wait
     desc: Create a Civo Kubernetes cluster
@@ -66,25 +66,25 @@ tasks:
   civo:02-create-firewall:
     cmds:
       - |
-        civo firewall create devops-directive-kubernetes-course \
-        --network devops-directive-kubernetes-course \
+        civo firewall create ${CLUSTER_NAME} \
+        --network ${CLUSTER_NAME} \
         --create-rules false \
         --region ${CIVO_REGION}
       - |
-        ingress_rule_ids=$(civo firewall rule ls devops-directive-kubernetes-course -o json | jq -r '.[] | select(.direction == "ingress") | .id')
+        ingress_rule_ids=$(civo firewall rule ls ${CLUSTER_NAME} -o json | jq -r '.[] | select(.direction == "ingress") | .id')
         for rule_id in $ingress_rule_ids; do
-          civo firewall rule remove devops-directive-kubernetes-course $rule_id -y --region ${CIVO_REGION}
+          civo firewall rule remove ${CLUSTER_NAME} $rule_id -y --region ${CIVO_REGION}
         done
-      - civo firewall rule create devops-directive-kubernetes-course --startport 80 --endport 80 --cidr 0.0.0.0/0 --protocol TCP --region ${CIVO_REGION}
-      - civo firewall rule create devops-directive-kubernetes-course --startport 443 --endport 443 --cidr 0.0.0.0/0 --protocol TCP --region ${CIVO_REGION}
-      - civo firewall rule create devops-directive-kubernetes-course --startport 6443 --endport 6443 --cidr 0.0.0.0/0 --protocol TCP --region ${CIVO_REGION}
+      - civo firewall rule create ${CLUSTER_NAME} --startport 80 --endport 80 --cidr 0.0.0.0/0 --protocol TCP --region ${CIVO_REGION}
+      - civo firewall rule create ${CLUSTER_NAME} --startport 443 --endport 443 --cidr 0.0.0.0/0 --protocol TCP --region ${CIVO_REGION}
+      - civo firewall rule create ${CLUSTER_NAME} --startport 6443 --endport 6443 --cidr 0.0.0.0/0 --protocol TCP --region ${CIVO_REGION}
       - cmd: gum style "🚨 If you wanted to lock down access to the k8s api, you could instead only allow traffic on 6443 from your IP (or that of a bastion host)"
         silent: true
     desc: Create a Civo firewall and set up rules
 
   civo:01-create-network:
     cmds:
-      - civo network create devops-directive-kubernetes-course --region ${CIVO_REGION}
+      - civo network create ${CLUSTER_NAME} --region ${CIVO_REGION}
     desc: Create a Civo network
 
   civo:05-get-kubeconfig:
