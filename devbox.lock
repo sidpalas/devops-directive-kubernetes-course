@@ -1,54 +1,6 @@
 {
   "lockfile_version": "1",
   "packages": {
-    "argocd@latest": {
-      "last_modified": "2024-05-13T18:06:16Z",
-      "resolved": "github:NixOS/nixpkgs/1daef0114a6074be56586f2cf81898ed142e1e44#argocd",
-      "source": "devbox-search",
-      "version": "2.11.0",
-      "systems": {
-        "aarch64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/2dbg91fv9x68cda304lryb27jnqax7v6-argocd-2.11.0",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/2dbg91fv9x68cda304lryb27jnqax7v6-argocd-2.11.0"
-        },
-        "aarch64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/zm0m3x52iq1wgdy7809dhc17k4hk7i93-argocd-2.11.0",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/zm0m3x52iq1wgdy7809dhc17k4hk7i93-argocd-2.11.0"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/2l1zd0b0pk6ha13ds08639hx3b0hldp1-argocd-2.11.0",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/2l1zd0b0pk6ha13ds08639hx3b0hldp1-argocd-2.11.0"
-        },
-        "x86_64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/apbif27rqj962l09ajfxfmrc2mwj2f6n-argocd-2.11.0",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/apbif27rqj962l09ajfxfmrc2mwj2f6n-argocd-2.11.0"
-        }
-      }
-    },
     "civo@latest": {
       "last_modified": "2024-05-17T18:08:26Z",
       "resolved": "github:NixOS/nixpkgs/0837fbf227364d79cbae8fff2378125526905cbe#civo",
@@ -886,6 +838,54 @@
             }
           ],
           "store_path": "/nix/store/w6sfmk0id016mf2c32hi2xn2j0kd9jk0-kubernetes-helm-3.15.0"
+        }
+      }
+    },
+    "kustomize@latest": {
+      "last_modified": "2024-05-29T10:04:41Z",
+      "resolved": "github:NixOS/nixpkgs/ac82a513e55582291805d6f09d35b6d8b60637a1#kustomize",
+      "source": "devbox-search",
+      "version": "5.4.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/rn0bmhs7b22ryanwynm061hr3m1mnpaf-kustomize-5.4.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/rn0bmhs7b22ryanwynm061hr3m1mnpaf-kustomize-5.4.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jm1y98gpslzzsvq600l0brr1jlqak4q5-kustomize-5.4.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/jm1y98gpslzzsvq600l0brr1jlqak4q5-kustomize-5.4.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/dps11nvz1jz92j4nq50zxcpa2477pqa1-kustomize-5.4.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/dps11nvz1jz92j4nq50zxcpa2477pqa1-kustomize-5.4.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/brk03k57nrv2smfaqnpzb78k0ibrcxfa-kustomize-5.4.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/brk03k57nrv2smfaqnpzb78k0ibrcxfa-kustomize-5.4.1"
         }
       }
     },
