@@ -20,6 +20,23 @@ devbox shell
 
 from anywhere in the repo and devbox will use Nix package manager to install a copy of all of the required software in an isolated environment.
 
+### Aliases
+
+I suggest creating the following aliases:
+
+```
+k=kubectl
+t=task
+tl='task --list-all'
+```
+
+### Autocomplete:
+
+Setting up tab completion for your shell of choice makes life much nicer:
+
+- kubectl: https://kubernetes.io/docs/reference/kubectl/generated/kubectl_completion/
+- task: https://taskfile.dev/installation/#setup-completions
+
 ## Cluster Set Up
 
 This directory contains configurations and commands for setting up 3 kubernetes clusters. Any of the 3 can be used for most of the examples, with a few exceptions.
