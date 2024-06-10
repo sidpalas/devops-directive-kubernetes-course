@@ -16,6 +16,5 @@ tasks:
   apply-initial-db-migration-job:
     desc: "Run init.sql script against the DB"
     cmds:
-      - "kubectl apply -f Configmap.db-migrations.yaml"
       - "kubectl apply -f Secret.db-password.yaml"
       - "kubectl apply -f Job.db-migrator.yaml"
