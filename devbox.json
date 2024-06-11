@@ -22,7 +22,8 @@
     "poetry@latest",
     "python312@latest",
     "tilt@latest",
-    "yq-go@latest"
+    "yq-go@latest",
+    "act@latest"
   ],
   "shell": {
     "init_hook": ["echo 'Welcome to devbox!' > /dev/null"],
