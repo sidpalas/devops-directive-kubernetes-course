@@ -174,7 +174,12 @@ tasks:
       - kind create cluster --config kind-config.yaml
     desc: Create a Kubernetes cluster using kind
 
-  kind:03-delete-cluster:
+  kind:03-run-cloud-provider-kind:
+    desc: "Run sigs.k8s.io/cloud-provider-kind@latest to enable load balancer services with KinD"
+    cmds:
+      - sudo cloud-provider-kind
+
+  kind:04-delete-cluster:
     cmds:
       - kind delete cluster
     desc: Delete and existing a kind Kubernetes cluster

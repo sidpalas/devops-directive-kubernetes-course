@@ -26,7 +26,11 @@
     "act@latest"
   ],
   "shell": {
-    "init_hook": ["echo 'Welcome to devbox!' > /dev/null"],
+    "init_hook": [
+      "export GOBIN=$(git rev-parse --show-toplevel)/bin",
+      "export PATH=$GOBIN:$PATH",
+      "go install sigs.k8s.io/cloud-provider-kind@v0.2.0"
+    ],
     "scripts": {
       "test": ["echo \"Error: no test specified\" && exit 1"]
     }
