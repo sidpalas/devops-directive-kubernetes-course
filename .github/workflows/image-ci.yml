@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image:
+        path:
           - 06-demo-application/api-golang
           - 06-demo-application/api-node
           - 06-demo-application/client-react
@@ -22,6 +22,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Necessary to get all tags for IMAGE_TAG generation with git describe
+          fetch-depth: 0
 
       - name: Install Task
         uses: arduino/setup-task@v2
@@ -47,9 +50,19 @@ jobs:
           image_tag=$(task generate-version-tag)
           echo "image_tag=$image_tag" >> $GITHUB_OUTPUT
 
+      - uses: actions/setup-go@v4
+        if: matrix.path == '06-demo-application/api-golang'
+        with:
+          go-version: "1.22.x"
+
+      - uses: ko-build/setup-ko@v0.6
+        if: matrix.path == '06-demo-application/api-golang'
+        with:
+          version: v0.15.4
+
       - name: Build Image
         env:
           IMAGE_TAG: ${{ steps.generate-image-tag.outputs.image_tag }}
-        working-directory: ${{ matrix.image }}
+        working-directory: ${{ matrix.path }}
         run: |
           task build-container-image-multi-arch IMAGE_TAG=${IMAGE_TAG}
