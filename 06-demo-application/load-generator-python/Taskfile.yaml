@@ -1,8 +1,7 @@
 version: "3"
 
 vars:
-  IMAGE_REPO: localhost:5000/devops-directive-kubernetes-course-load-generator-python
-  # IMAGE_REPO: sidpalas/devops-directive-kubernetes-course-load-generator-python
+  IMAGE_REPO: sidpalas/devops-directive-kubernetes-course-load-generator-python
   IMAGE_TAG: foobarbaz
 
 tasks:
@@ -29,5 +28,5 @@ tasks:
   run:
     desc: Start load generator
     cmds:
-      # api-golang is listening on port 8080
-      - API_URL=http://localhost:8080/ DELAY_MS=100 poetry run python main.py
+      # api-golang is listening on port 8000
+      - API_URL=http://localhost:8000/ DELAY_MS=100 poetry run python main.py

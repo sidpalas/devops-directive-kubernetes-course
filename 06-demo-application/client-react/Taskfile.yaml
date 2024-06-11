@@ -1,8 +1,7 @@
 version: "3"
 
 vars:
-  IMAGE_REPO: localhost:5000/devops-directive-docker-course-client-react-nginx
-  # IMAGE_REPO: sidpalas/devops-directive-docker-course-client-react-nginx
+  IMAGE_REPO: sidpalas/devops-directive-docker-course-client-react-nginx
   IMAGE_TAG: foobarbaz
 
 tasks:
