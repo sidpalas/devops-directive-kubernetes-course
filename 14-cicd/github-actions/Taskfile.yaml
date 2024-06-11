@@ -1,0 +1,8 @@
+version: "3"
+
+tasks:
+  generate-version-tag:
+    cmds:
+      - cmd: git describe --tags --always --first-parent --match "[0-9]*.[0-9]*.[0-9]*"
+        silent: true
+    desc: "Use git describe to generate a tag based on the latest release tag"
