@@ -50,7 +50,7 @@ jobs:
           image_tag=$(task generate-version-tag)
           echo "image_tag=$image_tag" >> $GITHUB_OUTPUT
 
-      - uses: actions/setup-go@v4
+      - uses: actions/setup-go@v5
         if: matrix.path == '06-demo-application/api-golang'
         with:
           go-version: "1.22.x"
@@ -108,5 +108,6 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
+          base: main
           token: ${{ secrets.DEVOPS_DIRECTIVE_KUBERNETES_COURSE_GITHUB_ACTION_PAT }}
           title: "Update image tags to (${{ steps.generate-image-tag.outputs.image_tag }})"
