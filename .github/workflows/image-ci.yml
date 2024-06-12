@@ -6,6 +6,9 @@ on:
       - "main"
     tags:
       - "[0-9]*.[0-9]*.[0-9]*"
+    paths:
+      # Only rebuild images when applications change
+      - "06-demo-application/**/*"
 
 jobs:
   build-tag-push:
