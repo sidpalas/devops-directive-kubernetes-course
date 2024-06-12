@@ -2,8 +2,8 @@ name: image-ci
 
 on:
   push:
-    # branches:
-    #   - "main"
+    branches:
+      - "main"
     tags:
       - "[0-9]*.[0-9]*.[0-9]*"
 
@@ -66,3 +66,46 @@ jobs:
         working-directory: ${{ matrix.path }}
         run: |
           task build-container-image-multi-arch IMAGE_TAG=${IMAGE_TAG}
+
+  update-tags:
+    runs-on: ubuntu-latest
+    needs: build-tag-push
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Necessary to get all tags for IMAGE_TAG generation with git describe
+          fetch-depth: 0
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+
+      # TODO: generate once and use everywhere (to avoid race condition)
+      - name: Generate Image Tag
+        id: generate-image-tag
+        working-directory: 14-cicd/github-actions
+        run: |
+          image_tag=$(task generate-version-tag)
+          echo "image_tag=$image_tag" >> $GITHUB_OUTPUT
+
+      - name: Update Image Tags
+        working-directory: 14-cicd/github-actions
+        env:
+          IMAGE_TAG: ${{ steps.generate-image-tag.outputs.image_tag }}
+        run: |
+          if [[ $GITHUB_REF == refs/heads/main ]]; then
+            task update-staging-image-tags NEW_TAG=${IMAGE_TAG}  
+          elif [[ $GITHUB_REF == refs/tags/*.*.* ]]; then
+            task update-production-image-tags NEW_TAG=${IMAGE_TAG}
+          else
+            echo "::error Neither main branch nor tag... something went wrong"
+            exit 1
+          fi
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
