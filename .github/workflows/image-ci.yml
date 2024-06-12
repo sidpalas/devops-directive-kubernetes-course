@@ -2,8 +2,8 @@ name: image-ci
 
 on:
   push:
-    branches:
-      - "main"
+    # branches:
+    #   - "main"
     tags:
       - "[0-9]*.[0-9]*.[0-9]*"
 
@@ -109,3 +109,4 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.DEVOPS_DIRECTIVE_KUBERNETES_COURSE_GITHUB_ACTION_PAT }}
+          title: "Update image tags to (${{ steps.generate-image-tag.outputs.image_tag }})"
