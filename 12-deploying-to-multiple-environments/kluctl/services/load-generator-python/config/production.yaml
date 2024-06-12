@@ -1,2 +1,2 @@
 loadGeneratorPython:
-  version: LOAD_GENERATOR_PYTHON_PRODUCTION_VERSION
+  version: 0.1.0 # PRODUCTION_IMAGE_TAG

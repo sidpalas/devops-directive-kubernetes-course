@@ -1,2 +1,2 @@
 apiGolang:
-  version: foobarbaz
+  version: 0.1.0 # STAGING_IMAGE_TAG

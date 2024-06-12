@@ -6,3 +6,52 @@ tasks:
       - cmd: git describe --tags --always --first-parent --match "[0-9]*.[0-9]*.[0-9]*"
         silent: true
     desc: "Use git describe to generate a tag based on the latest release tag"
+
+  update-image-tags:
+    desc: "Recursively update image tags in files with the specified comment"
+    vars:
+      EXCLUDED_FILES: |
+        {{.TASKFILE_DIR}}/Taskfile.yaml
+        MORE_FILES_CAN_GO_HERE
+    cmds:
+      - cmd: |
+          if [ -z "{{.NEW_TAG}}" ] || [ -z "{{.IDENTIFIER_COMMENT}}" ] || [ -z "{{.STARTING_PATH}}" ]; then
+            echo "Usage: task update-image-tags NEW_TAG=new-tag IDENTIFIER_COMMENT='# THIS_IS_MY_IMAGE_TAG' STARTING_PATH=/path/to/start" && exit 1;
+          fi
+      - cmd: |
+          echo "STARTING_PATH: {{ .STARTING_PATH }}"
+          echo "IDENTIFIER_COMMENT: {{ .IDENTIFIER_COMMENT }}"
+          echo "NEW_TAG: {{ .NEW_TAG }}"
+        silent: true
+      - cmd: |
+          find "{{.STARTING_PATH}}" -type f \( -name "*.yaml" -o -name "*.yml" \) -exec grep -l "{{.IDENTIFIER_COMMENT}}" {} \; | while read -r file; do
+            if ! echo "{{ .EXCLUDED_FILES }}" | grep -q "$file"; then
+              echo "Updating: $file"
+              sed -i "s|\(\s*.*:\s*\).* \({{ .IDENTIFIER_COMMENT }}\)|\1{{ .NEW_TAG }} \2|" "$file";
+            fi
+          done
+
+  check-new-tag-var:
+    cmds:
+      - cmd: |
+          if [ -z "{{.NEW_TAG}}" ] ; then
+            echo "NEW_TAG var is required" && exit 1;
+          fi
+
+  update-staging-image-tags:
+    cmds:
+      - task: check-new-tag-var
+      - task: update-image-tags
+        vars:
+          IDENTIFIER_COMMENT: "# STAGING_IMAGE_TAG"
+          STARTING_PATH:
+            sh: git rev-parse --show-toplevel
+
+  update-production-image-tags:
+    cmds:
+      - task: check-new-tag-var
+      - task: update-image-tags
+        vars:
+          IDENTIFIER_COMMENT: "# PRODUCTION_IMAGE_TAG"
+          STARTING_PATH:
+            sh: git rev-parse --show-toplevel

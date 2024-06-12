@@ -1,2 +1,2 @@
 apiGolang:
-  version: API_GOLANG_PRODUCTION_VERSION
+  version: 0.1.0 # PRODUCTION_IMAGE_TAG
