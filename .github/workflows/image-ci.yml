@@ -70,9 +70,6 @@ jobs:
   update-tags:
     runs-on: ubuntu-latest
     # needs: build-tag-push
-    permissions:
-      pull-requests: write
-      contents: write
 
     steps:
       - name: Checkout
@@ -111,4 +108,4 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.DEVOPS_DIRECTIVE_KUBERNETES_COURSE_GITHUB_ACTION }}
