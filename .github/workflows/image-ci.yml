@@ -2,8 +2,8 @@ name: image-ci
 
 on:
   push:
-    # branches:
-    #   - "main"
+    branches:
+      - "main"
     tags:
       - "[0-9]*.[0-9]*.[0-9]*"
 
@@ -96,13 +96,12 @@ jobs:
         env:
           IMAGE_TAG: ${{ steps.generate-image-tag.outputs.image_tag }}
         run: |
-          if [[ $GITHUB_REF == refs/heads/main ]]; then
-            task update-staging-image-tags NEW_TAG=${IMAGE_TAG}  
-          elif [[ $GITHUB_REF == refs/tags/*.*.* ]]; then
+          # Update staging tags for push to main or release tag
+          task update-staging-image-tags NEW_TAG=${IMAGE_TAG}            
+
+          # Update production tags only for release tags
+          if [[ $GITHUB_REF == refs/tags/*.*.* ]]; then
             task update-production-image-tags NEW_TAG=${IMAGE_TAG}
-          else
-            echo "::error Neither main branch nor tag... something went wrong"
-            exit 1
           fi
 
       - name: Create Pull Request
