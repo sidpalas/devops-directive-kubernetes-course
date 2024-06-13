@@ -11,8 +11,32 @@ on:
       - "06-demo-application/**/*"
 
 jobs:
+  generate-image-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.generate-image-tag.outputs.image_tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Necessary to get all tags for IMAGE_TAG generation with git describe
+          fetch-depth: 0
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+
+      - name: Generate Image Tag
+        id: generate-image-tag
+        working-directory: 14-cicd/github-actions
+        run: |
+          image_tag=$(task generate-version-tag)
+          echo "image_tag=$image_tag" >> $GITHUB_OUTPUT
+
   build-tag-push:
     runs-on: ubuntu-latest
+    needs: generate-image-tag
     strategy:
       matrix:
         path:
@@ -25,9 +49,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          # Necessary to get all tags for IMAGE_TAG generation with git describe
-          fetch-depth: 0
 
       - name: Install Task
         uses: arduino/setup-task@v2
@@ -65,39 +86,28 @@ jobs:
 
       - name: Build Image
         env:
-          IMAGE_TAG: ${{ steps.generate-image-tag.outputs.image_tag }}
+          IMAGE_TAG: ${{ needs.generate-image-tag.outputs.image_tag }}
         working-directory: ${{ matrix.path }}
         run: |
           task build-container-image-multi-arch IMAGE_TAG=${IMAGE_TAG}
 
   update-tags:
     runs-on: ubuntu-latest
-    needs: build-tag-push
+    needs: [generate-image-tag, build-tag-push]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          # Necessary to get all tags for IMAGE_TAG generation with git describe
-          fetch-depth: 0
 
       - name: Install Task
         uses: arduino/setup-task@v2
         with:
           version: 3.x
 
-      # TODO: generate once and use everywhere (to avoid race condition)
-      - name: Generate Image Tag
-        id: generate-image-tag
-        working-directory: 14-cicd/github-actions
-        run: |
-          image_tag=$(task generate-version-tag)
-          echo "image_tag=$image_tag" >> $GITHUB_OUTPUT
-
       - name: Update Image Tags
         working-directory: 14-cicd/github-actions
         env:
-          IMAGE_TAG: ${{ steps.generate-image-tag.outputs.image_tag }}
+          IMAGE_TAG: ${{ needs.generate-image-tag.outputs.image_tag }}
         run: |
           # Update staging tags for push to main or release tag
           task update-staging-image-tags NEW_TAG=${IMAGE_TAG}            
@@ -112,4 +122,4 @@ jobs:
         with:
           base: main
           token: ${{ secrets.DEVOPS_DIRECTIVE_KUBERNETES_COURSE_GITHUB_ACTION_PAT }}
-          title: "Update image tags to (${{ steps.generate-image-tag.outputs.image_tag }})"
+          title: "Update image tags to (${{ needs.generate-image-tag.outputs.image_tag }})"
