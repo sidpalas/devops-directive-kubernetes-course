@@ -22,6 +22,8 @@ task 07-delete-namespace
 
 ## Resource Types
 
+🚨 **Note:** You should follow this ordering (and this is the order they are covered in the video course)
+
 - **Namespace**: Provides a way to divide cluster resources between multiple users.
 - **Pod**: The smallest and simplest Kubernetes object. Represents a set of running containers on your cluster.
 - **ReplicaSet**: Ensures that a specified number of pod replicas are running at any given time.
