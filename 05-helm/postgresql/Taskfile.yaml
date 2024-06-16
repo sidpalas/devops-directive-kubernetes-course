@@ -94,7 +94,7 @@ tasks:
 
   15-uninstall:
     cmds:
-      - helm uninstall mysql
+      - helm uninstall postgresql
     desc: Uninstall PostgreSQL release
 
   16-delete-namespace:
