@@ -4,6 +4,8 @@ Helm (https://helm.sh/) has become the de facto standard for packaging and distr
 
 It provides a way to assemble many kubernetes resources and uses go's templating language to create custom interfaces so that consumers of the chart can configure the installation to meet their needs.
 
+![helm-diagram.png](readme-assets/helm-diagram.png)
+
 The fact that it is the most popular does not mean it is the only (or even the best) way to package kubernetes applications. In `12-deploying-to-multiple-environments` I will cover additional methods, but Helm is common enough that it is worth covering here.
 
 ## 3rd Party Example
