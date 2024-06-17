@@ -10,9 +10,6 @@ spec:
       url: https://github.com/sidpalas/devops-directive-kubernetes-course.git
       path: 12-deploying-to-multiple-environments/kluctl
   target: production
-  args:
-    # this passes the cluster_name initially passed via `kluctl deploy -a cluster_name=xxx.example.com` into the KluctlDeployment
-    cluster_name: {{args.cluster_name}}
   context: default
   # let it automatically clean up orphan KluctlDeployment resources
   prune: true
