@@ -1,0 +1,10 @@
+version: "3"
+
+includes:
+  cloudnative-pg:
+    taskfile: ./cloudnative-pg/Taskfile.yaml
+    dir: ./cloudnative-pg
+
+  trivy-operator:
+    taskfile: ./trivy-operator/Taskfile.yaml
+    dir: ./trivy-operator
