@@ -1,0 +1,12 @@
+version: "3"
+
+tasks:
+  render-staging:
+    desc: "Render staging configuration"
+    cmds:
+      - kubectl kustomize ./staging
+
+  render-production:
+    desc: "Render production configuration"
+    cmds:
+      - kubectl kustomize ./production

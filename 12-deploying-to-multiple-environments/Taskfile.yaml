@@ -1,0 +1,14 @@
+version: "3"
+
+includes:
+  helm:
+    taskfile: ./helm/Taskfile.yaml
+    dir: ./helm
+
+  kluctl:
+    taskfile: ./kluctl/Taskfile.yaml
+    dir: ./kluctl
+
+  kustomize:
+    taskfile: ./kustomize/Taskfile.yaml
+    dir: ./kustomize
