@@ -32,6 +32,7 @@ tasks:
           done
 
   check-new-tag-var:
+    desc: "Check if NEW_TAG variable is set"
     cmds:
       - cmd: |
           if [ -z "{{.NEW_TAG}}" ] ; then
@@ -39,6 +40,7 @@ tasks:
           fi
 
   update-staging-image-tags:
+    desc: "Update image tags for kluctl staging config"
     cmds:
       - task: check-new-tag-var
       - task: update-image-tags
@@ -48,6 +50,7 @@ tasks:
             sh: git rev-parse --show-toplevel
 
   update-production-image-tags:
+    desc: "Update image tags for kluctl production config"
     cmds:
       - task: check-new-tag-var
       - task: update-image-tags
