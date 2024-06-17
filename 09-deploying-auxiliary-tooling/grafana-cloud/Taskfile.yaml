@@ -1,0 +1,25 @@
+version: 3
+
+tasks:
+  install-grafana-k8s-monitoring:
+    desc: ""
+    env:
+      GRAFANA_TOKEN:
+    cmds:
+      - helm repo add grafana https://grafana.github.io/helm-charts
+      - helm repo update
+      - |
+        if [ -z "$GRAFANA_TOKEN" ]; then
+          echo "Environment variable GRAFANA_TOKEN is required."
+          exit 1
+        fi
+      - |
+        helm upgrade --install --atomic \
+          grafana-k8s-monitoring \
+          grafana/k8s-monitoring \
+          --namespace "grafana" \
+          --create-namespace \
+          --values values.yaml \
+          --set externalServices.prometheus.basicAuth.password=${GRAFANA_TOKEN} \
+          --set externalServices.loki.basicAuth.password=${GRAFANA_TOKEN} \
+          --set externalServices.tempo.basicAuth.password=${GRAFANA_TOKEN}

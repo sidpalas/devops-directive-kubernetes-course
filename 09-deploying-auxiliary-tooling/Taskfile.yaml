@@ -5,6 +5,14 @@ includes:
     taskfile: ./cloudnative-pg/Taskfile.yaml
     dir: ./cloudnative-pg
 
+  grafana-cloud:
+    taskfile: ./grafana-cloud/Taskfile.yaml
+    dir: ./grafana-cloud
+
+  opencost:
+    taskfile: ./opencost/Taskfile.yaml
+    dir: ./opencost
+
   trivy-operator:
     taskfile: ./trivy-operator/Taskfile.yaml
     dir: ./trivy-operator

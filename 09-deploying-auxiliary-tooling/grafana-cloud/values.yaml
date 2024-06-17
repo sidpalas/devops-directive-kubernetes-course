@@ -1,0 +1,58 @@
+cluster:
+  name: devops-directive-kubernetes-course
+externalServices:
+  prometheus:
+    host: https://prometheus-prod-13-prod-us-east-0.grafana.net
+    basicAuth:
+      username: "1614119"
+      # password: SET_IN_HELM_INSTALL_COMMAND
+  loki:
+    host: https://logs-prod-006.grafana.net
+    basicAuth:
+      username: "906996"
+      # password: SET_IN_HELM_INSTALL_COMMAND
+  tempo:
+    host: https://tempo-prod-04-prod-us-east-0.grafana.net:443
+    basicAuth:
+      username: "901312"
+      # password: SET_IN_HELM_INSTALL_COMMAND
+metrics:
+  enabled: true
+  cost:
+    enabled: true
+  node-exporter:
+    enabled: true
+logs:
+  enabled: true
+  pod_logs:
+    enabled: true
+  cluster_events:
+    enabled: true
+traces:
+  enabled: true
+receivers:
+  grpc:
+    enabled: true
+  http:
+    enabled: true
+  zipkin:
+    enabled: true
+opencost:
+  enabled: false
+  # opencost doesn't include Civo out of the box... have to install separately to configure
+  # custom pricing model.
+  # opencost:
+  #   exporter:
+  #     defaultClusterId: devops-directive-kubernetes-course
+  #   prometheus:
+  #     external:
+  #       url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom
+kube-state-metrics:
+  enabled: true
+prometheus-node-exporter:
+  enabled: true
+prometheus-operator-crds:
+  enabled: true
+alloy: {}
+alloy-events: {}
+alloy-logs: {}

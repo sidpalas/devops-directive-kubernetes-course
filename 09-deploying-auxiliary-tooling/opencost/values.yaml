@@ -1,0 +1,33 @@
+opencost:
+  customPricing:
+    enabled: true
+    # -- Customize the configmap name used for custom pricing
+    configmapName: custom-pricing-model
+    # -- Path for the pricing configuration.
+    configPath: /tmp/custom-config
+    # -- Configures the pricing model provided in the values file.
+    createConfigmap: true
+    # -- Sets the provider type for the custom pricing file.
+    provider: custom
+    # -- More information about these values here: https://www.opencost.io/docs/configuration/on-prem#custom-pricing-using-the-opencost-helm-chart
+    costModel:
+      # TODO: replace with actual Civo cost values
+      description: Modified pricing configuration.
+      CPU: 1.25
+      spotCPU: 0.006655
+      RAM: 0.50
+      spotRAM: 0.000892
+      GPU: 0.95
+      storage: 0.25
+      zoneNetworkEgress: 0.01
+      regionNetworkEgress: 0.01
+      internetNetworkEgress: 0.12
+  prometheus:
+    internal:
+      enabled: false
+    external:
+      enabled: true
+      url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom
+    existingSecretName: prometheus-k8s-monitoring
+    username_key: username
+    password_key: password

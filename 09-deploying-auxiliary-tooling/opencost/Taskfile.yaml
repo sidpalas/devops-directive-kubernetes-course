@@ -1,0 +1,14 @@
+version: 3
+
+tasks:
+  install-opencost:
+    desc: ""
+    cmds:
+      - helm repo add opencost https://opencost.github.io/opencost-helm-chart
+      - helm repo update
+      - |
+        helm upgrade --install \
+          opencost \
+          opencost/opencost \
+          --namespace "grafana" \
+          --values values.yaml
