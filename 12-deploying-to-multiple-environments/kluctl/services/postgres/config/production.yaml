@@ -1,0 +1,2 @@
+postgres:
+  instances: 2

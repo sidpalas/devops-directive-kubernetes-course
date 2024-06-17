@@ -3,3 +3,4 @@ deployments:
   - include: api-node
   - include: client-react
   - include: load-generator-python
+  - include: postgres

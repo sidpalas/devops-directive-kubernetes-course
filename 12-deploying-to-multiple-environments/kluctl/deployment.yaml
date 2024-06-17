@@ -5,8 +5,9 @@ deployments:
   - path: namespaces
   - barrier: true
   - path: common
-  - include: services
   - include: third-party
+  - barrier: true # postgres depends on cloudnative-pg being installed
+  - include: services
 
 commonLabels:
   devopsdirective.com/course: "kubernetes-course"

@@ -1,0 +1,13 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-minimal
+  namespace: postgres
+spec:
+  # You may or may not want to do this... I'm enabling for simplicity
+  enableSuperuserAccess: true
+  instances: {{postgres.instances}}
+  storage:
+    size: 1Gi
+  superuserSecret:
+    name: cnpg-minimal-superuser
