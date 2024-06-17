@@ -1,0 +1,83 @@
+version: "3"
+
+env:
+  CLUSTER_NAME: devops-directive-kubernetes-course
+  GCP_REGION: us-central1
+  GCP_ZONE: us-central1-a
+  # Set default gum style options
+  BORDER: double
+  BORDER_FOREGROUND: "212"
+  PADDING: "1 1"
+  MARGIN: "1 1"
+
+tasks:
+  01-run-kubent:
+    desc: "Run Kube No Trouble (kubent) to check for deprected API usage"
+    cmds:
+      - kubent
+
+  02-list-versions:
+    desc: "List available versions from GKE release channels"
+    cmds:
+      - gcloud container get-server-config --format "yaml(channels)"
+
+  03-update-release-channel:
+    desc: "Switch cluster to use the rapid release channel (to use more recent versions)"
+    cmds:
+      - gcloud container clusters update ${CLUSTER_NAME} --release-channel rapid
+
+  04-upgrade-control-plane:
+    desc: "Upgrade the control plane to a specific version"
+    vars:
+      VERSION: 1.30.1-gke.1329000
+    cmds:
+      - cmd: |
+          gum style "$(cat <<EOF
+          🚨🚨🚨 
+
+          Depending when you are following along, the available
+          versions will likely have changed. Please update accordingly!
+
+          🚨🚨🚨
+          EOF
+          )"
+        silent: true
+      - |
+        gcloud container clusters upgrade ${CLUSTER_NAME} \
+          --zone ${GCP_ZONE} \
+          --master \
+          --cluster-version {{ .VERSION }}
+
+  05-create-new-nodepool:
+    desc: "Provision a new nodepool with the update control plane version"
+    vars:
+      GCP_PROJECT_ID: kubernetes-course-424917
+    cmds:
+      - |
+        gcloud container node-pools create updated-node-pool \
+          --cluster ${CLUSTER_NAME} \
+          --zone ${GCP_ZONE} \
+          --machine-type e2-standard-2 \
+          --num-nodes 2 \
+          --workload-metadata=GKE_METADATA
+
+  06-cordon-and-drain-old-nodepool:
+    desc: "Cordon and drain nodes from the now outdated default-pool"
+    cmds:
+      - |
+        # Get all nodes in the specified node pool
+        nodes=$(kubectl get nodes -l cloud.google.com/gke-nodepool=default-pool -o name)
+
+        # Cordon and drain each node
+        for node in $nodes; do
+          kubectl cordon $node
+          kubectl drain $node --ignore-daemonsets --delete-emptydir-data --force
+        done
+
+  07-delete-old-nodepool:
+    desc: "Delete default-pool"
+    cmds:
+      - |
+        gcloud container node-pools delete default-pool \
+          --cluster ${CLUSTER_NAME} \
+          --zone ${GCP_ZONE}

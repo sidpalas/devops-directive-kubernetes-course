@@ -131,6 +131,9 @@ tasks:
     desc: "Create subnet"
 
   gcp:06-create-cluster:
+    desc: "Create GKE cluster"
+    vars:
+      GCP_PROJECT_ID: kubernetes-course-424917
     cmds:
       - |
         gcloud container clusters create ${CLUSTER_NAME} \
@@ -140,8 +143,7 @@ tasks:
           --machine-type e2-standard-2 \
           --num-nodes 2 \
           --gateway-api=standard \
-          --workload-pool=kubernetes-course-424917.svc.id.goog
-    desc: "Create GKE cluster"
+          --workload-pool={{.GCP_PROJECT_ID}}.svc.id.goog
 
   gcp:07-create-all:
     cmds:
