@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: client-react-nginx
-          image: sidpalas/devops-directive-docker-course-client-react-nginx::{{ clientReact.version }}
+          image: sidpalas/devops-directive-docker-course-client-react-nginx:{{ clientReact.version }}
           ports:
             - containerPort: 8080
               protocol: TCP
