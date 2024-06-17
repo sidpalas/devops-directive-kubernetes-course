@@ -5,6 +5,7 @@ metadata:
   namespace: demo-app
   annotations:
     kluctl.io/hook: pre-deploy
+    kluctl.io/hook-weight: 2
 spec:
   template:
     spec:
@@ -17,5 +18,5 @@ spec:
             - up
           envFrom:
             - secretRef:
-                name: db-password
+                name: db-migrator-password
       restartPolicy: OnFailure

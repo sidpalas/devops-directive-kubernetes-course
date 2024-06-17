@@ -16,6 +16,11 @@ tasks:
       - kluctl deploy -t staging
     desc: "Deploy staging configuration"
 
+  delete-staging:
+    cmds:
+      - kluctl delete -t staging
+    desc: "Render resource yaml with staging values"
+
   render-production:
     cmds:
       - kluctl render -t production --print-all
@@ -25,3 +30,8 @@ tasks:
     cmds:
       - kluctl deploy -t production
     desc: "Deploy production configuration"
+
+  delete-production:
+    cmds:
+      - kluctl delete -t production
+    desc: "Render resource yaml with production values"

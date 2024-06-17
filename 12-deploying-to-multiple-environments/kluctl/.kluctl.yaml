@@ -1,5 +1,3 @@
-discriminator: api-node-kluctl-{{ target.name }}
-
 targets:
   - name: production
     args:
@@ -14,3 +12,5 @@ targets:
 args:
   - name: environment
   - name: environmentType
+
+discriminator: kluctl-{{ target.name }}

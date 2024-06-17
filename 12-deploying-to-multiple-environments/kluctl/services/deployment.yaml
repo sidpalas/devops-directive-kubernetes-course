@@ -1,6 +1,7 @@
 deployments:
+  - include: postgres
+  - barrier: true
   - include: api-golang
   - include: api-node
   - include: client-react
   - include: load-generator-python
-  - include: postgres
