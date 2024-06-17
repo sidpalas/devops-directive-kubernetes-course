@@ -2,7 +2,7 @@ version: "3"
 
 includes:
   external-secrets-operator:
-    taskfile: ./external-secrets-operator
+    taskfile: ./external-secrets-operator/Taskfile.yaml
     dir: ./external-secrets-operator
 
   tilt:
