@@ -1,7 +1,7 @@
 version: 3
 
 tasks:
-  install-trivy-operator:
+  01-install-trivy-operator:
     desc: "Install trivy operator into trivy-system namespace"
     cmds:
       - helm repo add aqua https://aquasecurity.github.io/helm-charts/
@@ -11,3 +11,8 @@ tasks:
           --namespace trivy-system \
           --create-namespace \
           --version 0.23.2
+
+  02-uninstall-trivy-operator:
+    desc: "Uninstall the trivy operator"
+    cmds:
+      - helm uninstall trivy-operator --namespace trivy-system
