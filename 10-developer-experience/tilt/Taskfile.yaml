@@ -1,0 +1,7 @@
+version: "3"
+
+tasks:
+  tilt-up:
+    desc: "Start the applications using the top level tilt file"
+    cmds:
+      - tilt up

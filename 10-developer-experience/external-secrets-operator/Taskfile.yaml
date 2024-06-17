@@ -45,14 +45,17 @@ tasks:
     desc: "Add annotation to kubernetes service account for workload identity"
 
   04-apply-cluster-secret-store:
+    desc: "Apply the ClusterSecretStore configuration"
     cmds:
       - kubectl apply -f ClusterSecretStore.yaml
 
   05-apply-external-secret:
+    desc: "Apply the ExternalSecret configuration"
     cmds:
       - kubectl apply -f ExternalSecret.yaml
 
   07-get-secret-value:
+    desc: "Retrieve the secret value from the Kubernetes api"
     cmds:
       - kubectl get secrets external-secrets-example-k8s -o yaml | yq
       - kubectl get secrets external-secrets-example-k8s -o yaml | yq '.data.key-k8s' | base64 -d
