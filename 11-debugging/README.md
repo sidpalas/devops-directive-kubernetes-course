@@ -6,6 +6,8 @@ Sometimes things go wrong. This section is meant to show you misconfigurations t
 
 The application used for this section is https://github.com/GoogleCloudPlatform/microservices-demo, but with a few intentional breaks.
 
+![broken-demo.png](readme-assets/broken-demo.png)
+
 You can find the specific modifications I made to the configuration here: https://github.com/sidpalas/microservices-demo/pull/1. That being said, DON'T LOOK until you have already gone through the process of debugging it yourself.
 
 ## Flow Chart
