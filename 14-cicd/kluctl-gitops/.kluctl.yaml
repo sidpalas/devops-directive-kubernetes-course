@@ -5,9 +5,17 @@ args:
   - name: cluster_name
 
 targets:
-  - name: civo-cluster
+  - name: staging
     args:
-      cluster_name: civo-cluster
+      cluster_name: staging
+    # Adding a context to .kluctl.yaml helps prevent accidentally deploying to the wrong cluster!
+    # context: SOME_KUBECTL_CONTEXT
+
+  - name: production
+    args:
+      cluster_name: production
+    # Adding a context to .kluctl.yaml helps prevent accidentally deploying to the wrong cluster!
+    # context: SOME_OTHER_KUBECTL_CONTEXT
 
 # Without a discriminator, pruning won't work. Make sure the rendered result is unique on the target cluster
 discriminator: gitops-{{ args.cluster_name | slugify }}

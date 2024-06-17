@@ -1,13 +1,17 @@
 targets:
-  - name: production
-    args:
-      environment: production
-      environmentType: prod
-
   - name: staging
     args:
       environment: staging
       environmentType: non-prod
+    # Adding a context to .kluctl.yaml helps prevent accidentally deploying to the wrong cluster!
+    # context: SOME_KUBECTL_CONTEXT
+
+  - name: production
+    args:
+      environment: production
+      environmentType: prod
+    # Adding a context to .kluctl.yaml helps prevent accidentally deploying to the wrong cluster!
+    # context: SOME_KUBECTL_CONTEXT
 
 args:
   - name: environment

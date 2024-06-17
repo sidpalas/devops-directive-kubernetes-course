@@ -1,0 +1,10 @@
+version: "3"
+
+includes:
+  github-actions:
+    taskfile: ./github-actions/Taskfile.yaml
+    dir: ./github-actions
+
+  kluctl-gitops:
+    taskfile: ./kluctl-gitops/Taskfile.yaml
+    dir: ./kluctl-gitops

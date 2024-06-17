@@ -1,0 +1,12 @@
+version: "3"
+
+tasks:
+  deploy-staging-cluster:
+    desc: ""
+    cmds:
+      - kluctl deploy -t staging
+
+  deploy-production-cluster:
+    desc: ""
+    cmds:
+      - kluctl deploy -t production
