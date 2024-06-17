@@ -1,0 +1,18 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-with-backup-config
+spec:
+  instances: 2
+  storage:
+    size: 1Gi
+  backup:
+    barmanObjectStore:
+      destinationPath: "gs://devops-directive-kubernetes-course-cnpg-backups"
+      googleCredentials:
+        gkeEnvironment: true
+    retentionPolicy: "30d"
+  serviceAccountTemplate:
+    metadata:
+      annotations:
+        iam.gke.io/gcp-service-account: cnpg-backups@kubernetes-course-424917.iam.gserviceaccount.com

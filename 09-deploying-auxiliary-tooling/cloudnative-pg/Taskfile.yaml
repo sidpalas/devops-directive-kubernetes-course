@@ -29,16 +29,57 @@ tasks:
     cmds:
       - kubectl apply -f Cluster.cnpg-minimal.yaml
 
-  04-apply-cluster-with-backup-config:
+  04-create-google-cloud-storage-bucket:
+    desc: "Create a google cloud storage bucket for backups"
+    vars:
+      BUCKET_NAME: devops-directive-kubernetes-course-cnpg-backups
+    cmds:
+      - gcloud storage buckets create gs://{{.BUCKET_NAME}}
+
+  05-create-iam-service-account:
+    desc: "Create GCP IAM service account and attach necessary permissions"
+    vars:
+      BUCKET_NAME: devops-directive-kubernetes-course-cnpg-backups
+    cmds:
+      - |
+        gcloud iam service-accounts create cnpg-backups \
+          --display-name "Cloud Native PG Service Account"
+      - cmd: gum style "Attach roles/storage.objectAdmin and roles/storage.legacyBucketReader to IAM service account for backup bucket"
+        silent: true
+      - |
+        gsutil iam ch \
+          serviceAccount:cnpg-backups@kubernetes-course-424917.iam.gserviceaccount.com:roles/storage.objectAdmin \
+          gs://{{.BUCKET_NAME}}
+        gsutil iam ch \
+          serviceAccount:cnpg-backups@kubernetes-course-424917.iam.gserviceaccount.com:roles/storage.legacyBucketReader \
+          gs://{{.BUCKET_NAME}}
+
+      - cmd: gum style "Attach roles/iam.workloadIdentityUser to kubernetes service account"
+        silent: true
+      - |
+        gcloud iam service-accounts add-iam-policy-binding cnpg-backups@kubernetes-course-424917.iam.gserviceaccount.com \
+          --role roles/iam.workloadIdentityUser \
+          --member "serviceAccount:kubernetes-course-424917.svc.id.goog[09--cnpg/cnpg-with-backup-config]"
+
+  06-apply-cluster-with-backup-config-gcp:
+    desc: "Apply cnpg cluster definition with backup configuration"
+    cmds:
+      - cmd: gum style "🚨 This assumes you have set up a Google Cloud Storage bucket with workload identity providing access to the pod! 🚨 "
+        silent: true
+      - kubectl apply -f Cluster.cnpg-with-backup-config-gcp.yaml
+      - kubectl apply -f ScheduleBackup.yaml
+      - kubectl apply -f Backup.yaml
+
+  07-apply-cluster-with-backup-config-civo:
     desc: "Apply cnpg cluster definition with backup configuration"
     cmds:
       - cmd: gum style "🚨 This assumes you have set up a Civo object store and placed the credentials in a secret named civo-object-store-creds! 🚨 "
         silent: true
-      - kubectl apply -f Cluster.cnpg-with-backup-config.yaml
+      - kubectl apply -f Cluster.cnpg-with-backup-config-civo.yaml
       - kubectl apply -f ScheduleBackup.yaml
       - kubectl apply -f Backup.yaml
 
-  05-delete-namespace:
+  08-delete-namespace:
     desc: "Delete the namespace to clean up"
     cmds:
       - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
