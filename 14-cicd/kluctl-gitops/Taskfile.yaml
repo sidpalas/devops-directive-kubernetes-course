@@ -2,11 +2,21 @@ version: "3"
 
 tasks:
   deploy-staging-cluster:
-    desc: ""
+    desc: "Deploy kluctl gitops staging target"
     cmds:
       - kluctl deploy -t staging
 
   deploy-production-cluster:
-    desc: ""
+    desc: "Deploy kluctl gitops production target"
     cmds:
       - kluctl deploy -t production
+
+  get-webui-password:
+    desc: "Get password for kluctl web ui admin user"
+    cmds:
+      - kubectl -n kluctl-system get secret webui-secret -o jsonpath='{.data.admin-password}' | base64 -d
+
+  port-forward-webui:
+    desc: "Port forward web UI to localhost"
+    cmds:
+      - kubectl -n kluctl-system port-forward svc/kluctl-webui 8080
