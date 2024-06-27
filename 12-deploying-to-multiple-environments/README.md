@@ -40,4 +40,4 @@ cdk8s enables defining kubernetes resources using general purpose programming la
 
 ### Pulumi (https://www.pulumi.com/kubernetes/)
 
-Similar to cdk8s, Pulumi also has the ability to define kubernetes resources in general purpose programming languages. If you are already using pulumi for managing Infrastructure as Code, it could be useful to also manage your kubenetes deployments there!
+Similar to cdk8s, Pulumi also has the ability to define kubernetes resources in general purpose programming languages. If you are already using pulumi for managing Infrastructure as Code, it could be useful to also manage your kubernetes deployments there!
