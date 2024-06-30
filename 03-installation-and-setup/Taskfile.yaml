@@ -12,7 +12,7 @@ env:
   MARGIN: "1 1"
 
 tasks:
-  civo:01-authenticate-cli:
+  civo:00-authenticate-cli:
     cmds:
       - cmd: |
           gum style "$(cat <<EOF
@@ -34,34 +34,10 @@ tasks:
         silent: true
     desc: Authenticate the Civo CLI
 
-  civo:06-clean-up:
+  civo:01-create-network:
     cmds:
-      - civo kubernetes delete ${CLUSTER_NAME} -y
-      - cmd: gum style "There is some delay on the civo side from cluster being deleted to it being removed from the firewall rule usage"
-        silent: true
-      - sleep 10
-      - civo firewall delete ${CLUSTER_NAME} -y
-      - civo network delete ${CLUSTER_NAME} -y
-    desc: Clean up the Civo Kubernetes cluster and associated resources
-
-  civo:04-create-all:
-    cmds:
-      - task: civo:01-create-network
-      - task: civo:02-create-firewall
-      - task: civo:03-create-cluster
-    desc: Create the Civo network, firewall, and cluster in sequence
-
-  civo:03-create-cluster:
-    cmds:
-      - |
-        civo kubernetes create ${CLUSTER_NAME} \
-          --network ${CLUSTER_NAME} \
-          --existing-firewall ${CLUSTER_NAME} \
-          --nodes 2 \
-          --size g4s.kube.medium \
-          --remove-applications "traefik2-nodeport" \
-          --wait
-    desc: Create a Civo Kubernetes cluster
+      - civo network create ${CLUSTER_NAME} --region ${CIVO_REGION}
+    desc: Create a Civo network
 
   civo:02-create-firewall:
     cmds:
@@ -82,15 +58,39 @@ tasks:
         silent: true
     desc: Create a Civo firewall and set up rules
 
-  civo:01-create-network:
+  civo:03-create-cluster:
     cmds:
-      - civo network create ${CLUSTER_NAME} --region ${CIVO_REGION}
-    desc: Create a Civo network
+      - |
+        civo kubernetes create ${CLUSTER_NAME} \
+          --network ${CLUSTER_NAME} \
+          --existing-firewall ${CLUSTER_NAME} \
+          --nodes 2 \
+          --size g4s.kube.medium \
+          --remove-applications "traefik2-nodeport" \
+          --wait
+    desc: Create a Civo Kubernetes cluster
+
+  civo:04-create-all:
+    cmds:
+      - task: civo:01-create-network
+      - task: civo:02-create-firewall
+      - task: civo:03-create-cluster
+    desc: Create the Civo network, firewall, and cluster in sequence
 
   civo:05-get-kubeconfig:
     cmds:
       - civo kubernetes config ${CLUSTER_NAME} --save --switch
     desc: Get kubeconfig for the cluster
+
+  civo:06-clean-up:
+    cmds:
+      - civo kubernetes delete ${CLUSTER_NAME} -y
+      - cmd: gum style "There is some delay on the civo side from cluster being deleted to it being removed from the firewall rule usage"
+        silent: true
+      - sleep 10
+      - civo firewall delete ${CLUSTER_NAME} -y
+      - civo network delete ${CLUSTER_NAME} -y
+    desc: Clean up the Civo Kubernetes cluster and associated resources
 
   gcp:01-init-cli:
     cmds:
