@@ -14,12 +14,12 @@ tasks:
       - kubectl apply -f Namespace.yaml
       - kubens ${NAMESPACE}
 
-  02-file-like:
+  02-apply-file-like:
     desc: "Apply the ConfigMap with file like keys"
     cmds:
       - kubectl apply -f ConfigMap.file-like-keys.yaml
 
-  03-apply-better:
+  03-apply-property-like:
     desc: "Apply the ConfigMap with property like keys"
     cmds:
       - kubectl apply -f ConfigMap.property-like-keys.yaml
@@ -29,15 +29,15 @@ tasks:
     cmds:
       - kubectl apply -f Pod.configmap-example.yaml
 
-  05-exec-printenv:
-    desc: "Print the environment variables within the container"
-    cmds:
-      - kubectl exec configmap-example -c nginx -- printenv
-
-  06-exec-cat-config:
+  05-exec-cat-config:
     desc: "Cat /etc/config/conf.yaml within the container"
     cmds:
       - kubectl exec configmap-example -c nginx -- cat /etc/config/conf.yml
+
+  06-exec-printenv:
+    desc: "Print the environment variables within the container"
+    cmds:
+      - kubectl exec configmap-example -c nginx -- printenv
 
   07-delete-namespace:
     desc: "Delete the namespace to clean up"

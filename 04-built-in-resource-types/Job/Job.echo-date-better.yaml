@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: echo-date-better
-  namespace: 04--c
+  namespace: 04--job
 spec:
   parallelism: 2
   completions: 2
