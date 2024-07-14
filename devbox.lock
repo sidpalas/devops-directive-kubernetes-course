@@ -50,50 +50,50 @@
       }
     },
     "civo@latest": {
-      "last_modified": "2024-05-17T18:08:26Z",
-      "resolved": "github:NixOS/nixpkgs/0837fbf227364d79cbae8fff2378125526905cbe#civo",
+      "last_modified": "2024-06-13T11:09:45Z",
+      "resolved": "github:NixOS/nixpkgs/3f84a279f1a6290ce154c5531378acc827836fbb#civo",
       "source": "devbox-search",
-      "version": "1.0.83",
+      "version": "1.0.87",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/s7f1a6fziimw29gik5saq8kkp1bdjhzq-civo-1.0.83",
+              "path": "/nix/store/spl2wqr725gx94b1zbhqp4jzwp3i7sis-civo-1.0.87",
               "default": true
             }
           ],
-          "store_path": "/nix/store/s7f1a6fziimw29gik5saq8kkp1bdjhzq-civo-1.0.83"
+          "store_path": "/nix/store/spl2wqr725gx94b1zbhqp4jzwp3i7sis-civo-1.0.87"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/m8pxn1s1r59hlvj8janxqs686wwqb1nr-civo-1.0.83",
+              "path": "/nix/store/122j0cw7kxnxka5bdhrxjx70bx4v0l22-civo-1.0.87",
               "default": true
             }
           ],
-          "store_path": "/nix/store/m8pxn1s1r59hlvj8janxqs686wwqb1nr-civo-1.0.83"
+          "store_path": "/nix/store/122j0cw7kxnxka5bdhrxjx70bx4v0l22-civo-1.0.87"
         },
         "x86_64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/p92agn0y5qr761yiwms114nvfniybjx0-civo-1.0.83",
+              "path": "/nix/store/wsgyihx7zybd4r5zfi1yw9mn59665ja2-civo-1.0.87",
               "default": true
             }
           ],
-          "store_path": "/nix/store/p92agn0y5qr761yiwms114nvfniybjx0-civo-1.0.83"
+          "store_path": "/nix/store/wsgyihx7zybd4r5zfi1yw9mn59665ja2-civo-1.0.87"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/0xhqx30ai6qwbz9chqww98rjv3qhgaf6-civo-1.0.83",
+              "path": "/nix/store/j03hhd3j2qxi8dz98fcsd991ibi6b1j4-civo-1.0.87",
               "default": true
             }
           ],
-          "store_path": "/nix/store/0xhqx30ai6qwbz9chqww98rjv3qhgaf6-civo-1.0.83"
+          "store_path": "/nix/store/j03hhd3j2qxi8dz98fcsd991ibi6b1j4-civo-1.0.87"
         }
       }
     },

@@ -35,14 +35,14 @@ tasks:
   05-apply-dynamic-pv-pvc-statefulset-civo:
     desc: "Apply the configuration for a StatefulSet which provisions PVCs from a template (Civo)"
     cmds:
-      - cmd: gum style "🚨 Make sure to use the kubeconfig context associated with your civo cluster for this command!"
+      - cmd: gum style "🚨 Make sure to use the kubeconfig context associated with your Civo cluster for this command!"
         silent: true
       - kubectl apply -f civo/StatefulSet.individual-pvcs-civo.yaml
 
   06-apply-dynamic-pv-pvc-statefulset-gke:
     desc: "Apply the configuration for a StatefulSet which provisions PVCs from a template (GKE)"
     cmds:
-      - cmd: gum style "🚨 Make sure to use the kubeconfig context associated with your civo cluster for this command!"
+      - cmd: gum style "🚨 Make sure to use the kubeconfig context associated with your GKE cluster for this command!"
         silent: true
       - kubectl apply -f gke/StatefulSet.individual-pvcs-gke.yaml
 
