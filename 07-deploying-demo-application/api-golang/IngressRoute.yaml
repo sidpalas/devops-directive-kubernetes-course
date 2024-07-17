@@ -14,5 +14,5 @@ spec:
       services:
         - kind: Service
           name: api-golang
-          port: 8080
+          port: 8000
           scheme: http
