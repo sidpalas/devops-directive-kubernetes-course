@@ -1,5 +1,12 @@
 version: "3"
 
+env:
+  # Set default gum style options
+  BORDER: double
+  BORDER_FOREGROUND: "212"
+  PADDING: "1 1"
+  MARGIN: "1 1"
+
 includes:
   common:
     taskfile: ./common/Taskfile.yaml
@@ -48,13 +55,10 @@ tasks:
     cmds:
       - cmd: |
           gum style "$(cat <<EOF
-          🚨  🚨  🚨
-
-          You will need to push a copy of the corresponding container image
-          container image to a registry of your own because sidpalas/devops-directive-kubernetes-course-load-generator-python
-          is private (to demonstrate how image pull secrets work)
-
-          🚨  🚨  🚨
+          🚨  You will need to push a copy of the corresponding container image
+          🚨  container image to a repository of your own because 
+          🚨  sidpalas/devops-directive-kubernetes-course-load-generator-python
+          🚨  is private (to demonstrate how image pull secrets work)
           EOF
           )"
         silent: true
