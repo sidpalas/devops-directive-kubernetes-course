@@ -16,8 +16,8 @@ tasks:
     cmds:
       - |
         CONTAINER_ID=$(docker ps -q --filter "ancestor=postgres:16.3-alpine")
-        docker cp ./migrations/init.sql $CONTAINER_ID:/tmp/
-        docker exec $CONTAINER_ID psql -U "postgres" -f /tmp/init.sql
+        docker cp ./migrations/000001_create_users_table.up.sql $CONTAINER_ID:/tmp/
+        docker exec $CONTAINER_ID psql -U "postgres" -f /tmp/000001_create_users_table.up.sql
 
   build-container-image:
     desc: Build container image
