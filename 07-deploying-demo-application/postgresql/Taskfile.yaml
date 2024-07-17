@@ -11,6 +11,7 @@ tasks:
           postgres bitnami/postgresql \
           --set auth.postgresPassword=foobarbaz \
           --version 15.3.2 \
+          --values values.yaml \
           --create-namespace
 
   apply-initial-db-migration-job:
