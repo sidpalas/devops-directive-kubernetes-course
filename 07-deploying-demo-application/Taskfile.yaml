@@ -48,7 +48,7 @@ tasks:
           --docker-email=${DOCKER_EMAIL} \
           --docker-username=${DOCKER_USERNAME} \
           --docker-password=${DOCKER_PASSWORD} \
-          --docker-server=https://index.docker.io/v1
+          --docker-server=https://index.docker.io/v1/
 
   load-generator-python:apply:
     desc: "Apply kubernetes resource manifests for load-generator-python application"
