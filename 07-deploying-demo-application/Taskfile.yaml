@@ -69,6 +69,7 @@ tasks:
     - task: postgresql:install-postgres
     - task: postgresql:apply-initial-db-migration-job
     - task: common:deploy-traefik
+    - task: common:apply-traefik-middleware
     - task: api-golang:apply
     - task: api-node:apply
     - task: client-react:apply
