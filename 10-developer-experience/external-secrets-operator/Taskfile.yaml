@@ -12,9 +12,10 @@ tasks:
     cmds:
       - helm repo add external-secrets https://charts.external-secrets.io
       - |
-        helm install external-secrets \
+        helm upgrade --install external-secrets \
           external-secrets/external-secrets \
           -n external-secrets \
+          --values values.yaml \
           --create-namespace \
           --version 0.9.19
 

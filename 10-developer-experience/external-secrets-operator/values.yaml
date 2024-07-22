@@ -1,0 +1,3 @@
+serviceAccount:
+  annotations:
+    iam.gke.io/gcp-service-account: external-secrets@kubernetes-course-424917.iam.gserviceaccount.com
