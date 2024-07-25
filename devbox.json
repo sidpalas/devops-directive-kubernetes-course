@@ -6,7 +6,7 @@
     "gh@latest",
     "go@latest",
     "go-task@latest",
-    "google-cloud-sdk@latest",
+    "path:gcloud#google-cloud-sdk",
     "gum@latest",
     "jq@latest",
     "k9s@latest",
