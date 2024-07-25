@@ -566,50 +566,50 @@
       }
     },
     "kluctl@latest": {
-      "last_modified": "2024-05-29T10:04:41Z",
-      "resolved": "github:NixOS/nixpkgs/ac82a513e55582291805d6f09d35b6d8b60637a1#kluctl",
+      "last_modified": "2024-07-18T11:48:29Z",
+      "resolved": "github:NixOS/nixpkgs/7e2fb8e0eb807e139d42b05bf8e28da122396bed#kluctl",
       "source": "devbox-search",
-      "version": "2.22.1",
+      "version": "2.25.0",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/l5klfcpnc94ahiqnfygbyhp36bw5pk5f-kluctl-2.22.1",
+              "path": "/nix/store/5p082mshnkcdzarfjd9204fvrxjvh6d0-kluctl-2.25.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/l5klfcpnc94ahiqnfygbyhp36bw5pk5f-kluctl-2.22.1"
+          "store_path": "/nix/store/5p082mshnkcdzarfjd9204fvrxjvh6d0-kluctl-2.25.0"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/pcdv9niyll6zz4j66q78yiwjiqyw6rpi-kluctl-2.22.1",
+              "path": "/nix/store/y83a4l10i5sk441abw20y134wja7ljsd-kluctl-2.25.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/pcdv9niyll6zz4j66q78yiwjiqyw6rpi-kluctl-2.22.1"
+          "store_path": "/nix/store/y83a4l10i5sk441abw20y134wja7ljsd-kluctl-2.25.0"
         },
         "x86_64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/bs5jlmxmjafsfbw1qswyysswb3dp0w3g-kluctl-2.22.1",
+              "path": "/nix/store/b3kabiwgypv86y7smarc9kwkajpgll9a-kluctl-2.25.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/bs5jlmxmjafsfbw1qswyysswb3dp0w3g-kluctl-2.22.1"
+          "store_path": "/nix/store/b3kabiwgypv86y7smarc9kwkajpgll9a-kluctl-2.25.0"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/2syivcp11gkk27ldiw768mrx14hag1xj-kluctl-2.22.1",
+              "path": "/nix/store/pf0w5a4r09g6djw71rycgm2ifgbsm1jy-kluctl-2.25.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/2syivcp11gkk27ldiw768mrx14hag1xj-kluctl-2.22.1"
+          "store_path": "/nix/store/pf0w5a4r09g6djw71rycgm2ifgbsm1jy-kluctl-2.25.0"
         }
       }
     },
