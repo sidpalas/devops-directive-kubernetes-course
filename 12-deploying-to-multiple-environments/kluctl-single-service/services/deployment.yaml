@@ -1,0 +1,2 @@
+deployments:
+  - include: api-golang

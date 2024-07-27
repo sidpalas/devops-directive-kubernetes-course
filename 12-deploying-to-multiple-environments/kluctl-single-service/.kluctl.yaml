@@ -2,19 +2,16 @@ targets:
   - name: staging
     args:
       environment: staging
-      environmentType: non-prod
     # Adding a context to .kluctl.yaml helps prevent accidentally deploying to the wrong cluster!
     context: devops-directive-kubernetes-course
 
   - name: production
     args:
       environment: production
-      environmentType: prod
     # Adding a context to .kluctl.yaml helps prevent accidentally deploying to the wrong cluster!
-    context: gke_kubernetes-course-424917_us-central1-a_devops-directive-kubernetes-course-2
+    context: gke_kubernetes-course-424917_us-central1-a_devops-directive-kubernetes-course
 
 args:
   - name: environment
-  - name: environmentType
 
 discriminator: kluctl-{{ target.name }}

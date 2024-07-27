@@ -4,9 +4,9 @@ tasks:
   render-staging:
     desc: "Render staging configuration"
     cmds:
-      - kubectl kustomize ./staging
+      - kubectl kustomize ./staging | yq
 
   render-production:
     desc: "Render production configuration"
     cmds:
-      - kubectl kustomize ./production
+      - kubectl kustomize ./production | yq

@@ -1,4 +1,3 @@
 resources:
   - Namespace.yaml
   - helm-rendered.yaml # generated at deploy time
-

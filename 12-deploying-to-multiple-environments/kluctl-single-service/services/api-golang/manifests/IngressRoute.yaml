@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: api-golang
+  namespace: demo-app
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`{{ sharedVars.hostName }}`) && PathPrefix(`/api/golang`)
+      middlewares:
+        - name: strip-api-prefixes
+      services:
+        - kind: Service
+          name: api-golang
+          port: 8080
+          scheme: http
