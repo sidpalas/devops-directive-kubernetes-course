@@ -1,2 +1,2 @@
 apiNode:
-  version: 0.5.0-45-gb4bade9 # STAGING_IMAGE_TAG
+  version: 1.0.0 # STAGING_IMAGE_TAG
