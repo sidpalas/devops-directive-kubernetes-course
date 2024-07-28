@@ -1,7 +1,7 @@
 apiVersion: gitops.kluctl.io/v1beta1
 kind: KluctlDeployment
 metadata:
-  name: devops-directive-kubernetes-course
+  name: demo-app
   namespace: kluctl-gitops
 spec:
   interval: 5m
