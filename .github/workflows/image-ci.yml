@@ -67,13 +67,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Generate Image Tag
-        id: generate-image-tag
-        working-directory: 14-cicd/github-actions
-        run: |
-          image_tag=$(task generate-version-tag)
-          echo "image_tag=$image_tag" >> $GITHUB_OUTPUT
-
       - uses: actions/setup-go@v5
         if: matrix.path == '06-demo-application/api-golang'
         with:
@@ -118,8 +111,8 @@ jobs:
           fi
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
+      uses: peter-evans/create-pull-request@v6
+      with:
           base: main
           token: ${{ secrets.DEVOPS_DIRECTIVE_KUBERNETES_COURSE_GITHUB_ACTION_PAT }}
           title: "Update image tags to (${{ needs.generate-image-tag.outputs.image_tag }})"

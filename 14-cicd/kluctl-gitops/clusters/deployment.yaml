@@ -10,6 +10,7 @@ deployments:
       subDir: install/webui
       ref:
         tag: v2.24.1
+  - barrier: true
   # Include things that are required on all clusters (e.g., the KluctlDeployment for the GitOps deployment itself)
   - path: all
   # We use simple templating to change a dedicated deployment item per cluster
