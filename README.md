@@ -1,6 +1,6 @@
 # DevOps Directive Kubernetes Course
 
-This is the companion repo to my upcoming Kubernetes course! [Complete Kubernetes Course -- From BEGINNER to PRO
+This is the companion repo to: [Complete Kubernetes Course -- From BEGINNER to PRO
 ](https://www.youtube.com/watch?v=2T86xAtR6Fo)
 
 [![thumbnail](./readme-assets/thumbnail.jpg)](https://www.youtube.com/watch?v=2T86xAtR6Fo)
