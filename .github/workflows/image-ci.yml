@@ -111,8 +111,8 @@ jobs:
           fi
 
       - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v6
-      with:
+        uses: peter-evans/create-pull-request@v6
+        with:
           base: main
           token: ${{ secrets.DEVOPS_DIRECTIVE_KUBERNETES_COURSE_GITHUB_ACTION_PAT }}
           title: "Update image tags to (${{ needs.generate-image-tag.outputs.image_tag }})"
