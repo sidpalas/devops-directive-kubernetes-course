@@ -47,7 +47,7 @@ tasks:
         --create-rules false \
         --region ${CIVO_REGION}
       - |
-        ingress_rule_ids=$(civo firewall rule ls ${CLUSTER_NAME} -o json | jq -r '.[] | select(.direction == "ingress") | .id')
+        ingress_rule_ids=$(civo firewall rule ls --region ${CIVO_REGION} ${CLUSTER_NAME} -o json | jq -r '.[] | select(.direction == "ingress") | .id')
         for rule_id in $ingress_rule_ids; do
           civo firewall rule remove ${CLUSTER_NAME} $rule_id -y --region ${CIVO_REGION}
         done
@@ -62,6 +62,7 @@ tasks:
     cmds:
       - |
         civo kubernetes create ${CLUSTER_NAME} \
+          --region ${CIVO_REGION} \
           --network ${CLUSTER_NAME} \
           --existing-firewall ${CLUSTER_NAME} \
           --nodes 2 \
@@ -79,17 +80,17 @@ tasks:
 
   civo:05-get-kubeconfig:
     cmds:
-      - civo kubernetes config ${CLUSTER_NAME} --save --switch
+      - civo kubernetes config ${CLUSTER_NAME} --region ${CIVO_REGION} --save --switch
     desc: Get kubeconfig for the cluster
 
   civo:06-clean-up:
     cmds:
-      - civo kubernetes delete ${CLUSTER_NAME} -y
+      - civo kubernetes delete ${CLUSTER_NAME} --region ${CIVO_REGION} -y
       - cmd: gum style "There is some delay on the civo side from cluster being deleted to it being removed from the firewall rule usage"
         silent: true
       - sleep 10
-      - civo firewall delete ${CLUSTER_NAME} -y
-      - civo network delete ${CLUSTER_NAME} -y
+      - civo firewall delete ${CLUSTER_NAME} --region ${CIVO_REGION} -y
+      - civo network delete ${CLUSTER_NAME} --region ${CIVO_REGION} -y
     desc: Clean up the Civo Kubernetes cluster and associated resources
 
   gcp:01-init-cli:
