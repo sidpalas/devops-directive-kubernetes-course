@@ -1,2 +1,2 @@
 clientReact:
-  version: 1.0.0 # STAGING_IMAGE_TAG
+  version: 1.0.0-10-g246a215 # STAGING_IMAGE_TAG
