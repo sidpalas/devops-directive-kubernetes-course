@@ -1,7 +1,7 @@
 version: "3"
 
 vars:
-  IMAGE_REPO: sidpalas/devops-directive-kubernetes-course-db-migrator
+  IMAGE_REPO: sonthh98/devops-directive-kubernetes-course-db-migrator
   IMAGE_TAG: foobarbaz
 
 tasks:

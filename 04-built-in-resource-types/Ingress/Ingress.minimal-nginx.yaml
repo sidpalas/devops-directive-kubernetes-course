@@ -15,6 +15,11 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: nginx-clusterip
+                name: nginx-nodeport
                 port:
                   number: 80
+# kubectl run curl-pod -it --rm --image=curlimages/curl --command -- sh
+# curl -H "Host: ingress-example-nginx.com" <node_ip>:<node_port>
+# -H to specify the host header
+# <node_ip>: is the IP of the node where the Ingress controller is running
+# <node_port>: is the NodePort of the Ingress controller

@@ -6,6 +6,6 @@ metadata:
   name: load-generator-config
   namespace: demo-app
 data:
-  API_URL: http://api-node.demo-app.svc.cluster.local:3000
-  # API_URL: http://api-golang.demo-app.svc.cluster.local:8080
+  # API_URL: http://api-node.demo-app.svc.cluster.local:3000
+  API_URL: http://api-golang.demo-app.svc.cluster.local:8080
   DELAY_MS: "100"

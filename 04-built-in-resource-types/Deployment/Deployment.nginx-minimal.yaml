@@ -14,4 +14,5 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx:1.26.0
+          # Change image tag then ReplicaSet will create new Pods
+          image: nginx:1.25.0

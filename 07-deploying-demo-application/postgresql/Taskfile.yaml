@@ -7,7 +7,7 @@ tasks:
       - helm repo add bitnami https://charts.bitnami.com/bitnami
       - |
         helm upgrade --install \
-          -n postgres \
+          -n postgresx \
           postgres bitnami/postgresql \
           --set auth.postgresPassword=foobarbaz \
           --version 15.3.2 \

@@ -28,7 +28,11 @@ tasks:
     desc: "Roll the pods in one of the deployments"
     cmds:
       - kubectl rollout restart deployment nginx-better
+      # Switch to previous ReplicaSet
+
       - watch "kubectl get pods"
+
+      # kubectl rollout undo deployment nginx-better
 
   05-delete-namespace:
     desc: "Delete the namespace to clean up"
