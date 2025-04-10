@@ -250,7 +250,8 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: productcatalogservice
+    # app: productcatalogservice
+    app: productcatalogservise
   ports:
     - name: grpc
       port: 3550
