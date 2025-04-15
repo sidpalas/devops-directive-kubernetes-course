@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: individual-pvcs-kind
 spec:
-  serviceName: "nginx"
+  serviceName: "individual-pvcss"
   replicas: 2
   selector:
     matchLabels:
