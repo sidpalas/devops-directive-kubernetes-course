@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: api-golang
-          image: sidpalas/devops-directive-docker-course-api-golang:foobarbaz
+          image: sonthh98/devops-directive-docker-course-api-golang:foobarbaz
           env:
             - name: PORT
               value: "8000"

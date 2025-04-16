@@ -3,7 +3,11 @@ kind: Service
 metadata:
   name: client-react-nginx
   namespace: demo-app
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"default": "ne-backend-config"}'
 spec:
+  type: NodePort
   selector:
     app: client-react-nginx
   ports:

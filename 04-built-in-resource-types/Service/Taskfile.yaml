@@ -42,3 +42,18 @@ tasks:
       - cmd: gum style "🚨 Deleting the namespace recursively deletes the resources inside of it! 🚨 "
         silent: true
       - kubectl delete -f Namespace.yaml
+# Debug shell on a node => It create a debug pod on the node
+# kubectl debug node/kind-worker2 -it --image=ubuntu
+
+# Debug shell on a pod => It create a debug pod on the same node
+# kubectl run curl-pod -it --rm --image=curlimages/curl --command -- sh
+# curl <pod_ip>:<pod_port>
+# curl <service_ip or service_name>:<service_port>
+# eg: curl nginx-clusterip
+# node_port defined in the service
+# eg: curl <node_ip>:<node_port>
+
+# kubectl run curl-pod -it --rm -n default --image=curlimages/curl --command -- sh
+# outside namespace
+# curl <service_name>.<namespace>.svc.cluster.local
+# eg: curl nginx-clusterip.04--service.svc.cluster.local

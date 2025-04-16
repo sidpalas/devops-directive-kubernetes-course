@@ -16,12 +16,17 @@ spec:
         app: client-react-nginx
     spec:
       containers:
-        - image: sidpalas/devops-directive-docker-course-client-react-nginx:foobarbaz
+        - image: sonthh98/devops-directive-docker-course-client-react-nginx:foobarbaz
           name: client-react-nginx
           ports:
             - containerPort: 8080
               protocol: TCP
           readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 8080
+          livenessProbe:
             failureThreshold: 3
             httpGet:
               path: /ping

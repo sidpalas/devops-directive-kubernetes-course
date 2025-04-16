@@ -34,6 +34,7 @@ tasks:
         silent: true
       - helm registry login registry-1.docker.io
     desc: Login to OCI registry
+    # sonthh98/<docker-hub_password>
 
   05-list-registry:
     cmds:
