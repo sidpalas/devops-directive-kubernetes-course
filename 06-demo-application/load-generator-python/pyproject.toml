@@ -4,6 +4,10 @@ version = "0.1.0"
 description = ""
 authors = ["sid palas"]
 
+packages = [
+    { include = "load_generator_python" }
+]
+
 [tool.poetry.dependencies]
 python = "^3.9"
 requests = "^2.32.2"
