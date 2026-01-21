@@ -13,7 +13,10 @@ tasks:
     cmds:
       - kubectl apply -f Namespace.yaml
       - kubens ${NAMESPACE}
-
+  01.1-create-storage-class-standard:
+    desc: "Create a storage class called standard"
+    cmds:
+      - kubectl apply -f kind/StorageClass.standard.yaml
   02-apply-manual-pv-pvc-pod-kind:
     desc: "Apply the configuration for a manually provisioned local PVC and a pod to consume it"
     cmds:
