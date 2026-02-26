@@ -54,3 +54,10 @@ tasks:
         silent: true
       - kubectl delete -f Namespace.yaml
       - kubectl delete namespace ingress-nginx
+  
+  07-delete-namespace-state-terminating:
+    desc: "Delete the namespace for kubernetes v1 stuck state on terminating"
+    cmds:
+      - cmd: gum style "🚨 Deleting namespace stucked on terminating state for old kubernetes version! 🚨 "
+        silent: true
+      - 'kubectl get namespace ${NAMESPACE} -o json | tr -d "\n" | sed "s/\"finalizers\": \[[^]]\+\]/\"finalizers\": []/" | kubectl replace --raw /api/v1/namespaces/${NAMESPACE}/finalize -f -'
