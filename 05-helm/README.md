@@ -1,6 +1,6 @@
 # Helm
-
-Helm (https://helm.sh/) has become the de facto standard for packaging and distributing applications for kubernetes.
+- Helm chart is used to define,install and upgrade complex kubernetes applications.
+- Helm (https://helm.sh/) has become the de facto standard for packaging and distributing applications for kubernetes.
 
 It provides a way to assemble many kubernetes resources and uses go's templating language to create custom interfaces so that consumers of the chart can configure the installation to meet their needs.
 
