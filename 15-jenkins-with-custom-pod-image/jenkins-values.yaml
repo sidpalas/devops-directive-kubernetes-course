@@ -1,0 +1,58 @@
+controller:
+  serviceType: NodePort
+  servicePort: 8080
+  nodePort: 30080
+  jenkinsUrl: "http://localhost:8080"
+
+  admin:
+    createSecret: true
+    userKey: jenkins-admin-user
+    passwordKey: jenkins-admin-password
+
+  installPlugins:
+    - kubernetes
+    - workflow-aggregator
+    - git
+    - configuration-as-code
+
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1024Mi"
+    limits:
+      cpu: "2000m"
+      memory: "4096Mi"
+
+  JCasC:
+    enabled: true
+    defaultConfig: true
+    # IMPORTANT: don't put maps under configScripts values.
+    # If you add scripts later, each entry MUST be a string block:
+    # configScripts:
+    #   my-config: |-
+    #     jenkins:
+    #       systemMessage: "hello"
+
+persistence:
+  enabled: true
+  size: 8Gi
+  storageClass: ""
+  accessMode: ReadWriteOnce
+
+rbac:
+  create: true
+  readSecrets: true
+
+agent:
+  enabled: true
+  image:
+    registry: "localhost:5001"
+    repository: "my-jenkins-agent"
+    tag: "latest"
+  resources:
+    requests:
+      cpu: "1000m"
+      memory: "2Gi"
+    limits:
+      cpu: "4000m"
+      memory: "8Gi"

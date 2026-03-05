@@ -1,0 +1,23 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+containerdConfigPatches:
+- |-
+  [plugins."io.containerd.grpc.v1.cri".registry]
+    config_path = "/etc/containerd/certs.d"
+nodes:
+  - role: control-plane
+    extraPortMappings:
+    - containerPort: 30080
+      hostPort: 8080
+      protocol: TCP
+    - containerPort: 30050
+      hostPort: 50000
+      protocol: TCP
+  - role: worker
+    extraMounts:
+      - hostPath: ${REPLACE_WITH_ABSOLUTE_PATH}/kind-bind-mount-1
+        containerPath: /some/path/in/container
+  - role: worker
+    extraMounts:
+      - hostPath: ${REPLACE_WITH_ABSOLUTE_PATH}/kind-bind-mount-2
+        containerPath: /some/path/in/container

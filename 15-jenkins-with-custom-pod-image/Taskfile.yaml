@@ -1,0 +1,147 @@
+version: "3"
+
+tasks:
+  kind:registry-up:
+    desc: "Create/start local docker registry container (kind-registry on 127.0.0.1:5001)"
+    vars:
+      REG_NAME: kind-registry
+      REG_PORT: "5001"
+    cmds:
+      - |
+        set -euo pipefail
+
+        # Create if missing, start if stopped
+        if ! docker inspect "{{.REG_NAME}}" >/dev/null 2>&1; then
+          docker run -d --restart=always \
+            -p "127.0.0.1:{{.REG_PORT}}:5000" \
+            --name "{{.REG_NAME}}" \
+            registry:2
+        else
+          # Ensure it's running
+          if [ "$(docker inspect -f '{{`{{.State.Running}}`}}' {{.REG_NAME}})" != "true" ]; then
+            docker start "{{.REG_NAME}}"
+          fi
+        fi
+  
+  docker:build-jenkins-agent:
+    desc: "Build Jenkins agent image for the local kind registry"
+    vars:
+      REG_PORT: "5001"
+      IMAGE: my-jenkins-agent
+    cmds:
+      - |
+        set -euo pipefail
+        docker build -t localhost:{{.REG_PORT}}/{{.IMAGE}}:latest .
+  
+  docker:push-jenkins-agent:
+    desc: "Push Jenkins agent image to the local kind registry"
+    vars:
+      REG_PORT: "5001"
+      IMAGE: my-jenkins-agent
+    cmds:
+      - |
+        set -euo pipefail
+        docker push localhost:{{.REG_PORT}}/{{.IMAGE}}:latest
+
+  kind:config:
+    desc: "Generate kind config (with absolute paths) from template"
+    cmds:
+      - |
+        set -euo pipefail
+        REPLACE_WITH_ABSOLUTE_PATH="${PWD}" envsubst < kind-config.yaml.TEMPLATE > kind-config.yaml
+
+  kind:create:
+    desc: "Create kind cluster from kind-config.yaml"
+    cmds:
+      - |
+        set -euo pipefail
+        kind create cluster --config kind-config.yaml
+        kubectl config use-context kind-kind >/dev/null
+
+  kind:registry-connect-network:
+    desc: "Attach kind-registry container to the kind Docker network (for DNS name resolution)"
+    vars:
+      REG_NAME: kind-registry
+    cmds:
+      - |
+        set -euo pipefail
+        # Only connect if not already on 'kind' network
+        if [ "$(docker inspect -f '{{`{{json .NetworkSettings.Networks.kind}}`}}' {{.REG_NAME}})" = "null" ]; then
+          docker network connect kind "{{.REG_NAME}}"
+        fi
+
+  kind:registry-configure-nodes:
+    desc: "Configure each kind node to map localhost:5001 -> http://kind-registry:5000 via containerd certs.d"
+    vars:
+      REG_NAME: kind-registry
+      REG_PORT: "5001"
+    cmds:
+      - |
+        set -euo pipefail
+
+        REGISTRY_DIR="/etc/containerd/certs.d/localhost:{{.REG_PORT}}"
+
+        for node in $(kind get nodes); do
+          docker exec "$node" mkdir -p "$REGISTRY_DIR"
+          printf '%s\n' '[host."http://{{.REG_NAME}}:5000"]' \
+            | docker exec -i "$node" sh -lc "cat > '$REGISTRY_DIR/hosts.toml'"
+        done
+
+  kind:registry-doc:
+    desc: "Publish kube-public/local-registry-hosting ConfigMap (documents registry usage)"
+    vars:
+      REG_PORT: "5001"
+    cmds:
+      - |
+        set -euo pipefail
+
+        cat <<EOF | kubectl apply -f -
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: local-registry-hosting
+          namespace: kube-public
+        data:
+          localRegistryHosting.v1: |
+            host: "localhost:{{.REG_PORT}}"
+            help: "https://kind.sigs.k8s.io/docs/user/local-registry/"
+        EOF
+
+  kind:up:
+    desc: "Bring up: registry + cluster + registry wiring + docs"
+    cmds:
+      - task: kind:registry-up
+      - task: kind:config
+      - task: kind:create
+      - task: kind:registry-connect-network
+      - task: kind:registry-configure-nodes
+      - task: kind:registry-doc
+
+  kind:jenkins-install:
+    desc: "Install/upgrade Jenkins Helm chart into namespace jenkins"
+    cmds:
+      - |
+        set -euo pipefail
+        kubectl get ns jenkins >/dev/null 2>&1 || kubectl create ns jenkins
+        helm upgrade --install jenkins jenkins/jenkins -n jenkins -f jenkins-values.yaml
+
+  kind:jenkins-creds:
+    desc: "Print Jenkins admin username/password from secret"
+    cmds:
+      - |
+        set -euo pipefail
+        kubectl -n jenkins get secret jenkins -o jsonpath="{.data.jenkins-admin-user}" | base64 -d; echo
+        kubectl -n jenkins get secret jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 -d; echo
+
+  kind:down:
+    desc: "Delete kind cluster (registry is left running)"
+    cmds:
+      - kind delete cluster
+
+  kind:nuke:
+    desc: "Delete kind cluster AND remove the local registry container"
+    cmds:
+      - |
+        set -euo pipefail
+        kind delete cluster || true
+        docker rm -f kind-registry || true
