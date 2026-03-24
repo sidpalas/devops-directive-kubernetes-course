@@ -25,7 +25,8 @@
     "procps",
     "python312@latest",
     "tilt@latest",
-    "yq-go@latest"
+    "yq-go@latest",
+    "git@latest"
   ],
   "shell": {
     "init_hook": [
