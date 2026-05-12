@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: nginx-with-init-conainer
+  name: nginx-with-init-container
 spec:
   serviceName: nginxs
   replicas: 3
