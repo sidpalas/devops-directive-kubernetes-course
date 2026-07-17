@@ -134,7 +134,8 @@ tasks:
   gcp:06-create-cluster:
     desc: "Create GKE cluster"
     vars:
-      GCP_PROJECT_ID: kubernetes-course-424917
+      GCP_PROJECT_ID:
+        sh: gcloud config get-value project 2>/dev/null
     cmds:
       - |
         gcloud container clusters create ${CLUSTER_NAME} \
