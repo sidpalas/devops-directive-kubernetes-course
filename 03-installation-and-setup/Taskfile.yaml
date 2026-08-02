@@ -182,6 +182,11 @@ tasks:
     cmds:
       - sudo cloud-provider-kind
 
+  kind:03-run-cloud-provider-kind-rootless:
+    desc: "Run cloud-provider-kind without sudo (rootless Podman workflow)"
+    cmds:
+      - cloud-provider-kind
+
   kind:04-delete-cluster:
     cmds:
       - kind delete cluster
